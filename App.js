@@ -6,6 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 
+
 import MainView from './screens/main.js'
 
 const screenWidth = Dimensions.get('window').width; //full width
