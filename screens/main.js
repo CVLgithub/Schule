@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Button, Platform } from 'react-native';
 import * as cal from '../scripts/calendar'
+import * as plan from '../scripts/stundenplan'
 
 export default function App() {
     const[id,setid] = useState(0)
@@ -14,8 +15,8 @@ export default function App() {
 
     useEffect(() => {if (id == 0){return}; console.log(id, 'from app.js')}, [id])
 
-    const addEvent = (name, date = '2024-07-08', time = '00:00', endTime = '18:00') => {
-        cal.addEvent(id, name, date, time, endTime)
+    const addEvent = (name, date, duration = '15:00') => { //duration in min
+        cal.addEvent(id, name, date, duration)
     }
 
 
@@ -31,7 +32,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Calendar Module Example</Text>
-      <Button title='test' onPress={() => {addEvent('test')}}/>
+      <Button title='test' onPress={() => {addEvent('test', plan.nextDate('englisch'))}}/>
     </View>
   );
 }

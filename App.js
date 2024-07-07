@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Dimensions, StyleSheet, Text, View, ScrollView, SafeAreaView, Button, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,11 +10,6 @@ import MainView from './screens/main.js'
 
 const screenWidth = Dimensions.get('window').width; //full width
 const screenHeight = Dimensions.get('window').height; //full height
-
-
-
-let storedData = 'click me'
-let count = 0
 
 
 export default function App() {

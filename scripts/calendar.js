@@ -1,11 +1,4 @@
-import React, { useEffect, useState } from 'react';
 import * as Calendar from 'expo-calendar';
-
-/* const [id, setId] = useState(0);
-
-useEffect(() => {
-    SetCalId();
-}, []); */
 
 
 export async function SetCalId(){
@@ -57,17 +50,23 @@ const event = () => {
     addEvent('test1')
 }
 
-export async function addEvent(id, name, date = '2024-07-08', time = '00:00', endTime = '18:00') {
+export async function addEvent(id, name, date, duration = '15:00') { //duration in min
 if (id !== 0) {
-    const start = date + "T" + time + ":00.000Z"
-    const end = date + "T" + endTime + ":00.000Z"
+    const startDate = new Date(date);
+    const endTime = new Date(startDate.getTime() + (60 * 60 * 1000));
 
     const eventDetails = {
     title: name,
-    startDate: new Date(start), // Startzeit: 10:00 Uhr UTC
-    endDate: new Date(end),   // Endzeit: 11:00 Uhr UTC
+    startDate: startDate, 
+    endDate: endTime,  
     timeZone: 'UTC',
-    location: 'Berlin', // Optional: Location hinzufügen
+    location: 'Berlin',
+    alarms: [
+        {
+            relativeOffset: -1440, // 1440 Minuten = 24 Stunden vorher
+            method: Calendar.AlarmMethod.ALERT, // Alternativ: 'email' oder 'popup'
+        },
+    ],
     };
     try {
     const eventId = await Calendar.createEventAsync(id, eventDetails);
