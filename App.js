@@ -32,7 +32,7 @@ export default function App() {
       >
         <StatusBar style={styles.status}/> 
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='main'>
+          <Stack.Navigator initialRouteName='StundenPlan'>
             <Stack.Screen name = "main" component = {MainView}/>
             <Stack.Screen name = "StundenPlan" component = {StundenPlanView}/>  
           </Stack.Navigator>

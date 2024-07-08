@@ -1,6 +1,10 @@
 import moment from 'moment-timezone';
 const weekday = ["so","mo","di","mi","do","fr","sa"];
 
+
+export const weekdayfull ={so:"Sonntag",mo:"Montag",di:"Dienstag",mi:"Mittwoch",do:"Donnerstag",fr:"Freitag",sa:"Samstag"}
+    
+
 const woche = 'A'
 
 const dayList = {
@@ -23,7 +27,7 @@ const dayList = {
 
 
 //stundenplan sollte lokal gespeichert werden
-stundenPlan = {
+export const stundenPlan = {
     moA: ['deutsch','englisch','mathe'],
     diA: ['geschi','mathe','physik'],
     miA: ['sport','deutsch','powi'],
