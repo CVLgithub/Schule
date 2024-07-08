@@ -3,24 +3,31 @@ import { StyleSheet, View, Text, Button, Platform } from 'react-native';
 import * as cal from '../scripts/calendar'
 import * as plan from '../scripts/stundenplan'
 
-export default function App() {
-    const[id,setid] = useState(0)
-    useEffect(() => {
-        async function run(){
-            setid(await cal.SetCalId())
-        }
-        run()
+export default function Main({ navigation, route }) {
+  const[id,setid] = useState(0)
+  useEffect(() => {
+      async function run(){
+          setid(await cal.SetCalId())
+      }
+      run()
+  }, [])
 
-    }, [])
+  useEffect(() => {if (id == 0){return}}, [id])
 
-    useEffect(() => {if (id == 0){return}; console.log(id, 'from app.js')}, [id])
+    
 
-    const addEvent = (name, date, duration = '15:00') => { //duration in min
-        cal.addEvent(id, name, date, duration)
-    }
+  return (
+    <View style={styles.container}>
+      <Text>Calendar Module Example</Text>
+      <Button title='test' onPress={() => {cal.event(id, 'test', plan.nextDate('englisch'), 15)}}/>
+      <Button title='StundenPlan' onPress={() => {navigation.navigate("StundenPlan")}}/>
+    </View>
+  );
+}
 
 
-    const styles = StyleSheet.create({
+
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -28,11 +35,3 @@ export default function App() {
         justifyContent: 'space-around',
     },
     });
-
-  return (
-    <View style={styles.container}>
-      <Text>Calendar Module Example</Text>
-      <Button title='test' onPress={() => {addEvent('test', plan.nextDate('englisch'))}}/>
-    </View>
-  );
-}

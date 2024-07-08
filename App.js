@@ -7,6 +7,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 
 import MainView from './screens/main.js'
+import StundenPlanView from './screens/Stundenplan.js'
 
 const screenWidth = Dimensions.get('window').width; //full width
 const screenHeight = Dimensions.get('window').height; //full height
@@ -32,7 +33,8 @@ export default function App() {
         <StatusBar style={styles.status}/> 
         <NavigationContainer>
           <Stack.Navigator initialRouteName='main'>
-            <Stack.Screen name = "main" component = {MainView}/> 
+            <Stack.Screen name = "main" component = {MainView}/>
+            <Stack.Screen name = "StundenPlan" component = {StundenPlanView}/>  
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

@@ -46,14 +46,14 @@ async function createCalendar(calTitle) {
 }
 
 
-const event = () => {
-    addEvent('test1')
+export const event = (id, name, date, duration = 60) => {
+    addEvent(id, name, date, duration)
 }
 
-export async function addEvent(id, name, date, duration = '15:00') { //duration in min
+export async function addEvent(id, name, date, duration) { //duration in min
 if (id !== 0) {
     const startDate = new Date(date);
-    const endTime = new Date(startDate.getTime() + (60 * 60 * 1000));
+    const endTime = new Date(startDate.getTime() + (duration * 60 * 1000));
 
     const eventDetails = {
     title: name,

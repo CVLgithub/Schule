@@ -23,57 +23,53 @@ const dayList = {
 
 
 //stundenplan sollte lokal gespeichert werden
-stundenPlan = 
-    {
-        moA: ['deutsch','englisch','mathe'],
-        diA: ['geschi','mathe','physik'],
-        miA: ['sport','deutsch','powi'],
-        doA: ['info','physik','religion'],
-        frA: ['englisch','powi','geschi'],
-        saA: [],
-        soA: [],
-        moB: ['deutsch','geschi','mathe'],
-        diB: ['englisch','mathe','physik'],
-        miB: ['sport','deutsch','info'],
-        doB: ['powi','physik','religion'],
-        frB: ['englisch','powi','geschi'],
-        saB: [],
-        soB: [],
-    }
+stundenPlan = {
+    moA: ['deutsch','englisch','mathe'],
+    diA: ['geschi','mathe','physik'],
+    miA: ['sport','deutsch','powi'],
+    doA: ['info','physik','religion'],
+    frA: ['englisch','powi','geschi'],
+    saA: [],
+    soA: [],
+    moB: ['deutsch','geschi','mathe'],
+    diB: ['englisch','mathe','physik'],
+    miB: ['sport','deutsch','info'],
+    doB: ['powi','physik','religion'],
+    frB: ['englisch','powi','geschi'],
+    saB: [],
+    soB: [],
+}
 
 
-   export function nextDate(fach){
-        const dUTC = new Date();
-        const day = moment(dUTC).tz('Europe/Berlin').toDate();
-        console.log(day)
-        const nextDate = findNextLesson(fach, day)
-        console.log(nextDate)
-        day.setDate(day.getDate() + nextDate)
-        console.log('retruning', day)
-        return day
-    }
+export function nextDate(fach){
+    const dUTC = new Date();
+    const day = moment(dUTC).tz('Europe/Berlin').toDate();
+    console.log(day)
+    const nextDate = findNextLesson(fach, day)
+    console.log(nextDate)
+    day.setDate(day.getDate() + nextDate)
+    console.log('retruning', day)
+    return day
+}
 
 
 function findNextLesson(fach, d){
     const day = weekday[parseInt(d.getDay())] + woche;
     console.log('heute:', day)
 
-    if (!stundenPlan[day].includes(fach)){
-        console.log("nicht heute")
-        return
-    }
+    
 
     for (i in dayList){
         if (dayList[i] == day){
-            const startDay = parseInt(i) + 1
-            const nextDay = recursion(fach, startDay)
+            const startDay = parseInt(i)
+            const nextDay = recursion(fach, startDay + 1)
             if (startDay == nextDay){
                 return 7
             }
             else if (startDay > nextDay){
-                return (15 - startDay + nextDay)
+                return (14 - startDay + nextDay)
             }
-            return nextDay - (startDay - 1)
+            return nextDay - (startDay)
         }
     }
 
