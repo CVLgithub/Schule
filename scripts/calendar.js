@@ -46,11 +46,11 @@ async function createCalendar(calTitle) {
 }
 
 
-export const event = (id, name, date, duration = 60) => {
-    addEvent(id, name, date, duration)
+export const event = (id, name, date, duration = 60, notes = 'keine Angaben') => {
+    addEvent(id, name, date, duration, notes)
 }
 
-export async function addEvent(id, name, date, duration) { //duration in min
+export async function addEvent(id, name, date, duration, notizen) { //duration in min
 if (id !== 0) {
     const startDate = new Date(date);
     const endTime = new Date(startDate.getTime() + (duration * 60 * 1000));
@@ -60,13 +60,14 @@ if (id !== 0) {
     startDate: startDate, 
     endDate: endTime,  
     timeZone: 'UTC',
-    location: 'Berlin',
+    location: 'Frankfurt',
     alarms: [
         {
             relativeOffset: -1440, // 1440 Minuten = 24 Stunden vorher
             method: Calendar.AlarmMethod.ALERT, // Alternativ: 'email' oder 'popup'
         },
     ],
+    notes: notizen,
     };
     try {
     const eventId = await Calendar.createEventAsync(id, eventDetails);

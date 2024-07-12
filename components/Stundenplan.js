@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, View, Text, Button, Platform } from 'react-nati
 import React, { useEffect, useState } from 'react';
 
 import * as s from '../scripts/stundenplan'
-import Tag from '../components/stundenplanComps'
+import Tag from './stundenplanComps'
 
 const screenWidth = Dimensions.get('window').width; //full width
 const screenHeight = Dimensions.get('window').height; //full height
@@ -10,25 +10,30 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 const woche = 'B'
 
-export default function StundenPlan({ navigation, route }){
-    const [coloumns, setColoumns] = useState([]);
+export default function StundenPlan({navigation, reload}){
+    const [columns, setColumns] = useState([]);
 
-    useEffect(() => {
-        const newColoumns = [];
+    const generateColumns = () => {
+        console.log('Generating columns'); // Debugging line
+        const newColumns = [];
         for (let i in s.stundenPlan) {
-            const day = i.slice(0, 2);
-            if (day === 'so' || day === 'sa') {
-                break;
-            }
-            newColoumns.push(<Tag key={i} day={day} woche={woche} nav = {navigation}/>)
+        const day = i.slice(0, 2);
+        if (day === 'so' || day === 'sa') {
+            break;
         }
-        setColoumns(newColoumns);
-    }, [s.stundenPlan]);
-    
+        newColumns.push(<Tag key={i} day={day} woche={woche} nav={navigation} />);
+        }
+        setColumns(newColumns);
+    };
+
+    //neu laden
+    useEffect(() => {
+        generateColumns();
+    }, [reload]);
 
     return (
         <View style = {styles.container} >
-            {coloumns}
+            {columns}
         </View>
         
     )

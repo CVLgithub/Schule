@@ -7,7 +7,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 
 import MainView from './screens/main.js'
-import StundenPlanView from './screens/Stundenplan.js'
 import EditView from './screens/editPlan.js'
 
 const screenWidth = Dimensions.get('window').width; //full width
@@ -35,7 +34,6 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName='main'>
             <Stack.Screen name = "main" component = {MainView}/>
-            <Stack.Screen name = "StundenPlan" component = {StundenPlanView}/> 
             <Stack.Screen name = "Editieren" component = {EditView}/> 
           </Stack.Navigator>
         </NavigationContainer>
