@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import * as cal from './calendar'
+import { useState } from 'react';
 const weekday = ["so","mo","di","mi","do","fr","sa"];
 
 
@@ -38,7 +39,7 @@ const dayList = {
 
 
 //stundenplan sollte lokal gespeichert werden
-export const stundenPlan = {
+export let  stundenPlan = {
     moA: ['deutsch','englisch','mathe', 'sport'],
     diA: ['geschi','mathe'],
     miA: ['sport','deutsch','powi'],
