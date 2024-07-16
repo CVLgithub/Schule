@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import { Dimensions, StyleSheet, Text, View, ScrollView, SafeAreaView, Button, Pressable } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -15,7 +14,7 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-
+  console.log('here we go')
   return (
     <>
       <SafeAreaView
