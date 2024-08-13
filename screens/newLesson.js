@@ -1,14 +1,16 @@
 import { Dimensions, StyleSheet, View, Text, Button, Platform,TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
 
 export default function AddView({ navigation, route}) {
+  const [selectedSubject, setSelectedSubject] = useState();
+  const [items, setitems] = useState()
   const { day  } = route.params;
-  const [text, onChangeText] = React.useState('');
 
   const add = () => {
-    s.stundenPlan[day].push(text)
+    s.stundenPlan[day].push(selectedSubject)
     console.log('add')
     console.log(s.stundenPlan[day])
 
@@ -16,15 +18,34 @@ export default function AddView({ navigation, route}) {
     
   }
 
+  useEffect(
+    () => {
+      const newItems = []
+      for (i in s.SubjectList){
+        const item = s.SubjectList[i]
+        if(i == 0){
+          setSelectedSubject(item)
+        }
+        newItems.push(
+          <Picker.Item label={item} value={item} key={i}/>
+        )
+      console.log(i)
+      }
+      setitems(newItems)}
+    ,[]
+  )
+
+
   return ( 
     <View >
       <Text>{day}</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="Neues Fach"
-      />
+      <Picker
+        selectedValue={selectedSubject}
+        onValueChange={(itemValue, itemIndex) =>
+          setSelectedSubject(itemValue)
+        }>
+        {items}
+      </Picker>
       <Button title={'Save'} onPress={add}></Button>
     </View>
   );

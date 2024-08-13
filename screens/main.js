@@ -6,7 +6,7 @@ import StundenPlan from '../components/Stundenplan';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationRouteContext } from '@react-navigation/native';
 
- async function storeData(key, data) {
+async function storeData(key, data) {
   try {
     await AsyncStorage.setItem(String(key), String(data));
     console.log('Data stored successfully', key, data);

@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import * as cal from './calendar'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const weekday = ["so","mo","di","mi","do","fr","sa"];
@@ -56,6 +57,60 @@ export let  stundenPlan = {
     saB: [],
     soB: [],
 }
+
+
+
+const getSubjectList = async () => {
+    const x = await getData('SubjectList', (x) => {return(x)})
+    console.log('subjectlist')
+    console.log(x)
+    if (x == 'error'){
+        console.log('error !!!!')
+        return []
+    }
+    return x
+    
+}
+
+export let SubjectList = ['Loading ...']
+
+const setSubjectList = async () => {
+    SubjectList = await getSubjectList()
+}
+setSubjectList()
+
+
+export const saveSubjects = () => {
+    storeData('SubjectList', JSON.stringify(SubjectList))
+}
+
+
+
+export async function storeData(key, data) {
+    try {
+      await AsyncStorage.setItem(String(key), String(data));
+      console.log('Data stored successfully', key, data);
+    } catch (error) {
+      console.log('Error storing data: ', error);
+    }
+};
+
+export async function getData(key, callback) {
+    try {
+        const value = JSON.parse(await AsyncStorage.getItem(key));
+        if (value !== null && value !== undefined && value !== 'undefined') {
+            console.log(`return ${value}`)
+            callback(value)
+            return value
+        } else {
+            console.log('No data found');
+            return 'error'
+        }
+    } catch (error) {
+        console.log('Error retrieving data: ', error);
+        return 'error'
+    }
+};
 
 
 export function nextDate(fach){

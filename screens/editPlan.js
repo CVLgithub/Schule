@@ -1,18 +1,18 @@
 import { Dimensions, StyleSheet, View, Text, Button, Platform,TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
 
 export default function EditView({ navigation, route}) {
   const { lesson, day  } = route.params;
-  const [text, onChangeText] = React.useState('');
 
   const edit = () => {
     const index = s.stundenPlan[day].indexOf(lesson)
     console.log('index:',index)
 
     if (index !== -1) {
-        s.stundenPlan[day][index] = text;
+        s.stundenPlan[day][index] = selectedSubject;
         console.log('switch')
     }
     console.log(s.stundenPlan[day])
@@ -31,17 +31,40 @@ export default function EditView({ navigation, route}) {
     navigation.navigate('main', { refresh: Math.random() });
   }
 
+  const [selectedSubject, setSelectedSubject] = useState();
+  const [items, setitems] = useState()
+
+
+  useEffect(
+    () => {
+      const newItems = []
+      for (i in s.SubjectList){
+        const item = s.SubjectList[i]
+        if(i == 0){
+          setSelectedSubject(item)
+        }
+        newItems.push(
+          <Picker.Item label={item} value={item} key={i}/>
+        )
+      console.log(i)
+      }
+      setitems(newItems)}
+    ,[]
+  )
+
   
 
   return ( 
     <View >
       <Text>{lesson}</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="Fach ändern"
-      />
+      
+      <Picker
+        selectedValue={selectedSubject}
+        onValueChange={(itemValue, itemIndex) =>
+          setSelectedSubject(itemValue)
+        }>
+        {items}
+      </Picker>
       <Button title={'Save'} onPress={edit}></Button>
       <Button title={'Delete'} onPress={deleteLesson}/>
     </View>

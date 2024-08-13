@@ -10,7 +10,7 @@ const screenHeight = Dimensions.get('window').height; //full height
 export default function Week({nav}){
     return (
         <View style = {styles.container} >
-            <Pressable onPress={() => {if(s.woche == 'A'){s.woche = 'B'}else{s.woche = 'A'}nav.navigate('main', { refresh: Math.random() });}}>
+            <Pressable hitSlop={50} onPress={() => {if(s.woche == 'A'){s.woche = 'B'}else{s.woche = 'A'}nav.navigate('main', { refresh: Math.random() });}}>
                 <Text>{s.woche} Woche</Text>
             </Pressable>
             
