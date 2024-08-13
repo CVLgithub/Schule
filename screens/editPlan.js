@@ -21,6 +21,16 @@ export default function EditView({ navigation, route}) {
     
   }
 
+  const deleteLesson = () => {
+    console.log(s.stundenPlan[day])
+    const index = s.stundenPlan[day].indexOf(lesson)
+    console.log(index);
+    console.log(s.stundenPlan[day][index])
+    s.stundenPlan[day].splice(index, 1);
+    console.log(s.stundenPlan[day])
+    navigation.navigate('main', { refresh: Math.random() });
+  }
+
   
 
   return ( 
@@ -33,6 +43,7 @@ export default function EditView({ navigation, route}) {
         placeholder="Fach ändern"
       />
       <Button title={'Save'} onPress={edit}></Button>
+      <Button title={'Delete'} onPress={deleteLesson}/>
     </View>
   );
 }

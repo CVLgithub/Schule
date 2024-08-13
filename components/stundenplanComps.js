@@ -8,10 +8,13 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 
 
-const AddLesson = ({day, woche, nav}) => {
+const AddLesson = ({day, nav}) => {
     return (
         <View style={styles2.addLesson}>
-            <Text>Add lesson</Text>
+            <Pressable onPress={() => {nav.navigate('Hinzufügen', {day: day })}}>
+                <Text style={styles2.addLessonTxt}>Add lesson</Text>
+            </Pressable>
+            
         </View>
     )
 }
@@ -20,8 +23,6 @@ const Tag = ({day, woche, nav}) => {
     const DayFull = s.weekdayfull[day]
     const [lessons, setlessons] = useState([])
     useEffect(() => {
-        console.log('from Tag')
-        console.log(s.stundenPlan)
 
         try {
             const newLessons = []
@@ -46,7 +47,7 @@ const Tag = ({day, woche, nav}) => {
             </View>
             
             {lessons}
-            <AddLesson/>
+            <AddLesson day = {day+woche} nav = {nav}/>
         </View>
     )
 }
@@ -56,7 +57,7 @@ const Lesson = ({fach, day, nav}) => {
     return ( 
         <Pressable onPress={() => {console.log(day, fach); nav.navigate('Editieren', {lesson: fach, day: day })}}>
             <View style={styles2.lesson}>
-                <Text>{fach}</Text>
+                <Text style={styles2.lessonTxt}>{fach}</Text>
             </View>
         </Pressable>
             
@@ -88,12 +89,20 @@ const styles2 = StyleSheet.create({
         marginVertical: 5,
         height: 60,
         margin: 1.5,
+        justifyContent: 'center'
+    },
+    lessonTxt: {
+        alignSelf: 'center'
     },
     addLesson: {
         backgroundColor: 'blue',
         marginVertical: 5,
         height: 60,
-        margin: 1.5
+        margin: 1.5,
+        justifyContent: 'center'
+    },
+    addLessonTxt: {
+        alignSelf: 'center'
     }
     
 })

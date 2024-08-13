@@ -4,6 +4,7 @@ import * as cal from '../scripts/calendar'
 import * as plan from '../scripts/stundenplan'
 import StundenPlan from '../components/Stundenplan';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationRouteContext } from '@react-navigation/native';
 
  async function storeData(key, data) {
   try {
@@ -31,7 +32,7 @@ async function getData(key, callback) {
     console.log('Error retrieving data: ', error);
     return 'error'
   }
-  };
+};
 
 
 function save(){
@@ -48,7 +49,7 @@ async function getStoredStunendplan(){
 export default function Main({ navigation, route }) {
   console.log('main');
   navigation.setOptions({
-    headerRight: () => <Button onPress={() => save()} title='save'/>
+    headerRight: () => <Button onPress={() => navigation.navigate('Einstellungen')} title='Einstellungen'/>
   })
   
 
@@ -81,6 +82,7 @@ export default function Main({ navigation, route }) {
   useEffect(() => {
     console.log('reload');
     if (reload == 0){return}
+    save()
     loadStundenPlan();
   }, [reload]); 
 
