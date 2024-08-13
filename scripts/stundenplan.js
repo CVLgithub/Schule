@@ -18,7 +18,7 @@ const getTypeOfWeek = () => {
     return 'B'
 }
 
-const woche = getTypeOfWeek()
+export const woche = getTypeOfWeek()
 
 const dayList = {
     1: 'moA',

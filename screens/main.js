@@ -17,10 +17,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function getData(key, callback) {
   try {
-    const value = await AsyncStorage.getItem(key);
+    const value = JSON.parse(await AsyncStorage.getItem(key));
     if (value !== null && value !== undefined && value !== 'undefined') {
       console.log(`return ${value}`)
-      console.dir(deepInspect(value))
+      console.log(value)
       //if (value == plan.stundenPlan){return}
       callback(value)
     } else {
@@ -35,12 +35,13 @@ async function getData(key, callback) {
 
 
 function save(){
-  storeData('stundenPlan', plan.stundenPlan)
-
+  storeData('stundenPlan', JSON.stringify(plan.stundenPlan))
+  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n', plan.stundenPlan)
 }
 
 async function getStoredStunendplan(){
-  await getData('stundenPlan', (x) => {console.log('value:--------',x)})
+  
+  await getData('stundenPlan', (x) => { plan.stundenPlan = x; console.log('-------------------------------------------------------------------- \n', plan.stundenPlan)})
   console.log("2")
 }
 
@@ -68,20 +69,20 @@ export default function Main({ navigation, route }) {
       loadStundenPlan();
     }
     run();
-  }, []);  // Leeres Abhängigkeits-Array sorgt dafür, dass dieser Effekt nur einmal bei der Montage ausgeführt wird
+  }, []); 
 
   useEffect(() => {
     if (id === 0) {
       console.log('id');
       return;
     }
-    // Irgendeine Aktion bei einer neuen id
-  }, [id]);  // Dieser Effekt wird nur ausgeführt, wenn `id` sich ändert
+  }, [id]); 
 
   useEffect(() => {
     console.log('reload');
+    if (reload == 0){return}
     loadStundenPlan();
-  }, [reload]);  // Dieser Effekt wird nur ausgeführt, wenn `reload` sich ändert
+  }, [reload]); 
 
   useEffect(() => {
     if (route.params?.refresh) {

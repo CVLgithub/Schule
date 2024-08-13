@@ -8,15 +8,19 @@ const screenWidth = Dimensions.get('window').width; //full width
 const screenHeight = Dimensions.get('window').height; //full height
 
 
-const woche = 'B'
+
 
 export default function StundenPlan({navigation, reload}){
+    const woche = s.woche
     const [columns, setColumns] = useState([]);
+    console.log('generate')
+    console.log(s.stundenPlan)
 
     const generateColumns = () => {
         console.log('Generating columns'); // Debugging line
         const newColumns = [];
-        for (let i in s.stundenPlan) {
+        for (i in s.stundenPlan) {
+            console.log('i', i)
         const day = i.slice(0, 2);
         if (day === 'so' || day === 'sa') {
             break;
@@ -46,6 +50,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 20,
+        borderRightWidth: 1.5,
     }
     
 })

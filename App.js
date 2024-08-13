@@ -7,6 +7,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import MainView from './screens/main.js'
 import EditView from './screens/editPlan.js'
+import Week from './components/week.js'
 
 const screenWidth = Dimensions.get('window').width; //full width
 const screenHeight = Dimensions.get('window').height; //full height
@@ -32,7 +33,7 @@ export default function App() {
         <StatusBar style={styles.status}/> 
         <NavigationContainer>
           <Stack.Navigator initialRouteName='main'>
-            <Stack.Screen name = "main" component = {MainView}/>
+            <Stack.Screen name = "main" component = {MainView}  options={({ navigation, route}) => ({title: 'Schulplanner', headerLeft: () => <Week/> })}/>
             <Stack.Screen name = "Editieren" component = {EditView}/> 
           </Stack.Navigator>
         </NavigationContainer>
