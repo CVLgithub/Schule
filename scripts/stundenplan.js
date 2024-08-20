@@ -42,7 +42,7 @@ const dayList = {
 
 
 //stundenplan sollte lokal gespeichert werden
-export let  stundenPlan = {
+export let  stundenPlan2 = {
     moA: ['deutsch','englisch','mathe', 'sport'],
     diA: ['geschi','mathe'],
     miA: ['sport','deutsch','powi'],
@@ -151,7 +151,7 @@ function recursion(fach, index, runtime = 0){
     if (index >= 14){   
         return recursion(fach, 1, runtime + 1)
     }
-    if (stundenPlan[dayList[index]].includes(fach)){
+    if (SubjectList[dayList[index]].includes(fach)){
         return index
     }
     return recursion(fach, index + 1, runtime + 1)
@@ -173,8 +173,8 @@ export function getlesson(){
     const d = moment(dUTC).tz('Europe/Berlin').toDate();
     const day = weekday[parseInt(d.getDay())] + woche;
     const lessonInDay = convertTimeToLesson(day)
-    console.log('Aktuell ist', stundenPlan[day][lessonInDay] )
-    return [day,lessonInDay, stundenPlan[day][lessonInDay]]
+    console.log('Aktuell ist', SubjectList[day][lessonInDay] )
+    return [day,lessonInDay, SubjectList[day][lessonInDay]]
 
 }
 
@@ -199,7 +199,7 @@ function convertTimeToLesson(d){
             return index
         }
     });
-    return stundenPlan[d].length - 1
+    return SubjectList[d].length - 1
 }
 
 
