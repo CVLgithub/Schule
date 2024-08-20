@@ -147,7 +147,7 @@ function findNextLesson(fach, d){
 function recursion(fach, index, runtime = 0){
     if (runtime >= 16){return 0}
     console.log(fach)
-    if (index >= 11){   
+    if (index >= 14){   
         return recursion(fach, 1, runtime + 1)
     }
     if (stundenPlan[dayList[index]].includes(fach)){
