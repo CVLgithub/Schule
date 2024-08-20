@@ -196,7 +196,7 @@ function convertTimeToLesson(d){
     Timetable.forEach((element, index) => {
         console.log(element)
         if(time <= element){
-            return index - 1
+            return index
         }
     });
     return stundenPlan[d].length - 1
