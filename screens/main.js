@@ -267,7 +267,13 @@ export default function Main({ navigation, route }) {
       />
       <Switch/>
       <SubjectSelect/>
-      <Button title='Hausaufgabe hinzufügen' onPress={() => {plan.handlePress(id, text)}} />
+      <Button title='Hausaufgabe hinzufügen' onPress={() => {
+        if(SwitchState == 'auto'){
+          plan.handlePress(id, text, plan.stundenPlan)
+        } else {
+          plan.handlePressCustom(id, text, plan.stundenPlan, selectedSubject )
+        }
+      }} />
       {stundenPlanItem}
     </View>
   );

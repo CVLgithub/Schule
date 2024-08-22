@@ -113,11 +113,11 @@ export async function getData(key, callback) {
 };
 
 
-export function nextDate(fach){
+export function nextDate(fach,plan){
     const dUTC = new Date();
     const day = moment(dUTC).tz('Europe/Berlin').toDate();
     console.log(day)
-    const nextDate = findNextLesson(fach, day)
+    const nextDate = findNextLesson(fach, day, plan )
     console.log(nextDate)
     day.setDate(day.getDate() + nextDate)
     console.log('retruning', day)
@@ -125,14 +125,14 @@ export function nextDate(fach){
 }
 
 
-function findNextLesson(fach, d){
+function findNextLesson(fach, d, plan){
     const day = weekday[parseInt(d.getDay())] + woche;
     console.log('heute:', day)  
 
     for (i in dayList){
         if (dayList[i] == day){
             const startDay = parseInt(i)
-            const nextDay = recursion(fach, startDay + 1)
+            const nextDay = recursion(fach,plan, startDay + 1)
             if (startDay == nextDay){
                 return 7
             }
@@ -144,22 +144,30 @@ function findNextLesson(fach, d){
     }
 }
 
-function recursion(fach, index, runtime = 0){
-    if (runtime >= 16){return 0}
-    console.log(fach)
-    if (index >= 11){   
-        return recursion(fach, 1, runtime + 1)
+function recursion(fach,plan, index, runtime = 0){
+    if (runtime >= 18){return 0}
+    if (index >= 14){   
+        return recursion(fach,plan, 1, runtime + 1)
     }
-    if (stundenPlan[dayList[index]].includes(fach)){
+    if (plan[dayList[index]].includes(fach)){
         return index
     }
-    return recursion(fach, index + 1, runtime + 1)
+    return recursion(fach,plan, index + 1, runtime + 1)
 }
 
-export function	handlePress(id,text){
-    const [day, LID, fach] = getlesson()
+export function	handlePress(id,text,plan){
+    console.log('test2', plan)
+    const [day, LID, fach] = getlesson(plan)
     console.log(fach)
-    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach), 15, text)
+    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 15, text)
+    console.log(text)
+}
+
+export function	handlePressCustom(id,text,plan, Subject){
+    console.log('test2', plan)
+    const fach = Subject
+    console.log(fach)
+    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 15, text)
     console.log(text)
 }
 
@@ -167,13 +175,14 @@ export function	handlePress(id,text){
 
 const Timetable = [7*60+50,9*60+40,11*60+30,13*60]
 
-export function getlesson(){
+
+function getlesson(plan){
     const dUTC = new Date();
     const d = moment(dUTC).tz('Europe/Berlin').toDate();
     const day = weekday[parseInt(d.getDay())] + woche;
-    const lessonInDay = convertTimeToLesson(day)
-    console.log('Aktuell ist', stundenPlan[day][lessonInDay] )
-    return [day,lessonInDay, stundenPlan[day][lessonInDay]]
+    const lessonInDay = convertTimeToLesson(day, plan)
+    console.log('Aktuell ist', plan[day][lessonInDay] )
+    return [day,lessonInDay, plan[day][lessonInDay]]
 
 }
 
@@ -190,15 +199,17 @@ function getTimeInMin(){
 
 
 
-function convertTimeToLesson(d){
+function convertTimeToLesson(d, plan){
     const time = getTimeInMin()
     Timetable.forEach((element, index) => {
-        console.log(element)
+        //console.log(element)
         if(time <= element){
+            console.log(index)
             return index - 1
         }
     });
-    return stundenPlan[d].length - 1
+    console.log('return:', stundenPlan[d].length - 1)
+    return plan[d].length - 1
 }
 
 

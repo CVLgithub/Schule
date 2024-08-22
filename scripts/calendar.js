@@ -1,4 +1,5 @@
 import * as Calendar from 'expo-calendar';
+import { Platform } from 'react-native';
 
 
 export async function SetCalId(){
