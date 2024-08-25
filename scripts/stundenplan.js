@@ -160,7 +160,7 @@ export function	handlePress(id,text,plan){
     console.log('test2', plan)
     const [day, LID, fach] = getlesson(plan)
     console.log(fach)
-    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 15, text)
+    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 90, text)
     console.log(text)
 }
 
@@ -168,7 +168,7 @@ export function	handlePressCustom(id,text,plan, Subject){
     console.log('test2', plan)
     const fach = Subject
     console.log(fach)
-    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 15, text)
+    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 90, text)
     console.log(text)
 }
 
