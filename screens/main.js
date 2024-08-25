@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Button, Platform, TextInput, Pressable} from 'react-native';
+import React, { useEffect, useState,useRef  } from 'react';
+import { StyleSheet, View, Text, Button, Platform, TextInput, Pressable, ScrollView} from 'react-native';
 import * as cal from '../scripts/calendar'
 import * as plan from '../scripts/stundenplan'
 import StundenPlan from '../components/Stundenplan';
@@ -51,8 +51,6 @@ async function getStoredStunendplan(){
 
 
 export default function Main({ navigation, route }) {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   console.log('main');
   navigation.setOptions({
     headerRight: () => <Button onPress={() => navigation.navigate('Einstellungen')} title='Einstellungen'/>
@@ -80,7 +78,7 @@ export default function Main({ navigation, route }) {
           setSelectedSubject(item)
         }
         newItems.push(
-          <Picker.Item label={item} value={item} key={i}/>
+          <Picker.Item styles={styles.pickerItem}label={item} value={item} key={i}/>
         )
         console.log('test')
       }
@@ -93,6 +91,8 @@ export default function Main({ navigation, route }) {
       if (items == 0){return}
 
       setPicker(<Picker
+      numberOfLines={1}
+      style={styles.picker}
       height={200}
       selectedValue={selectedSubject}
       onValueChange={(itemValue, itemIndex) =>
@@ -116,6 +116,7 @@ export default function Main({ navigation, route }) {
         confPicker()
       }
       loadStundenPlan()
+      
     }
     run();
   }, []); 
@@ -242,19 +243,43 @@ export default function Main({ navigation, route }) {
     if (SwitchState == 'custom'){
       console.log(pickerVar)
       return (
-          <View style={styles.picker}>
+          <View style={styles.pickerContainer}>
             {pickerVar}
           </View>
       )
     }
       return (
-        <View height={200}>
-          <Text>test</Text>
+        <View >
         </View>
       )
   }
-    
 
+  const Header = () => {
+    console.log('Generating columns'); // Debugging line
+    const newColumns = [];
+    for (i in plan.stundenPlan) {
+      console.log('i', i)
+      const day = i.slice(0, 2);
+      if (day === 'so' || day === 'sa') {
+          break;
+      }
+      const DayFull = plan.weekdayfull[day]
+      newColumns.push(
+        <View style = {styles.headerItem} key={i}>
+          <Text style = {styles.headerTxt}>{DayFull}</Text>
+        </View>
+      );
+    }
+    return(
+      <View style={styles.headerContainer}>
+        {newColumns}
+      </View>
+    );
+
+    
+  }
+    
+  const scrollRef = useRef();
   return (
     <View style={styles.container}>
       <TextInput
@@ -263,18 +288,23 @@ export default function Main({ navigation, route }) {
         value={text}
         placeholder="Hausaufgabe:"
         height={50}
-        margin={30}
+        margin={15}
       />
       <Switch/>
       <SubjectSelect/>
       <Button title='Hausaufgabe hinzufügen' onPress={() => {
+      
         if(SwitchState == 'auto'){
           plan.handlePress(id, text, plan.stundenPlan)
         } else {
           plan.handlePressCustom(id, text, plan.stundenPlan, selectedSubject )
         }
       }} />
-      {stundenPlanItem}
+      <ScrollView ref={scrollRef} style={styles.scroll} bounces={false} stickyHeaderIndices={[0]}>
+        <Header/>
+        {stundenPlanItem}
+      </ScrollView>
+      
     </View>
   );
 }
@@ -309,11 +339,47 @@ const styles = StyleSheet.create({
       height: 25,
       padding: 5,
     },
+    scroll: {
+      marginBottom: 10,
+      borderBottomWidth: 1.5,
+      flex: 1,
+      maxHeight: 420,
+      marginHorizontal: 20,
+      paddingBottom:10,
+    },
+    pickerItem: {
+      height: 10,
+      backgroundColor: 'blue'
+    },
     picker: {
-      height: 200,
-      marginBottom: 150,
+      //backgroundColor: 'green',
+      //height: 100
+    },
+    pickerContainer: {
+      //height: 20,
+      //marginBottom: 150,
       flex: 1,
       width: 220,
-      padding: 20,
-    }
+      //padding: 20,
+    },
+    headerContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      borderRightWidth: 1.5,
+    },
+    headerItem: {
+      backgroundColor: '#DE0D4F',
+      height: 40,
+      justifyContent: 'center',
+      flex: 1,
+      position: 'absolut',
+      top: -2,
+      borderLeftWidth: 1.5,
+      borderTopWidth: 3.5,
+      borderBottomWidth: 1.5
+    },
+    headerTxt: {
+      fontSize: 12,
+      alignSelf: 'center'
+    },
     });

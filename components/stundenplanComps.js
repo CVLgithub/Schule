@@ -42,9 +42,9 @@ const Tag = ({day, woche, nav}) => {
     return (
         <View style={styles2.coloumn}>
 
-            <View style = {styles2.header}>
+            {/* <View style = {styles2.header}>
                 <Text style = {styles2.headerTxt}>{DayFull}</Text>
-            </View>
+            </View> */}
             
             {lessons}
             <AddLesson day = {day+woche} nav = {nav}/>
@@ -69,13 +69,14 @@ const styles2 = StyleSheet.create({
         //backgroundColor: 'green',
         flexDirection: 'coloumn',
         width: (screenWidth - 45) / 5,
-        borderWidth: 1.5,
-        borderRightWidth: 0,
+        borderLeftWidth: 1.5,
+        borderWidth: 0,
+        //paddingTop: 20
         
     },
     header: {
-        backgroundColor: 'pink',
-        margin: 1.5,
+        backgroundColor: '#DE0D4F',
+        //margin: 1.5,
         marginBottom: 10,
         height: 35,
         justifyContent: 'center',
@@ -85,21 +86,23 @@ const styles2 = StyleSheet.create({
         alignSelf: 'center'
     },
     lesson: {
-        backgroundColor: 'red',
+        backgroundColor: '#134ECF',
         marginVertical: 5,
         height: 60,
         margin: 1.5,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 5,
     },
     lessonTxt: {
         alignSelf: 'center'
     },
     addLesson: {
-        backgroundColor: 'blue',
+        backgroundColor: '#DE0D4F',
         marginVertical: 5,
         height: 60,
         margin: 1.5,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 5
     },
     addLessonTxt: {
         alignSelf: 'center'

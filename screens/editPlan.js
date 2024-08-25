@@ -56,7 +56,6 @@ export default function EditView({ navigation, route}) {
 
   return ( 
     <View >
-      <Text>{lesson}</Text>
       
       <Picker
         selectedValue={selectedSubject}

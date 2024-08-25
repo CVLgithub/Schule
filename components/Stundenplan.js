@@ -49,8 +49,11 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginHorizontal: 20,
         borderRightWidth: 1.5,
+       // borderTopWidth: 1.5,
+        position: 'relative',
+        top: -2,
+        zIndex: 2
     }
     
 })
