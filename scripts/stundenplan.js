@@ -3,6 +3,7 @@ import * as cal from './calendar'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+
 const weekday = ["so","mo","di","mi","do","fr","sa"];
 
 
@@ -41,7 +42,7 @@ const dayList = {
 
 
 //stundenplan sollte lokal gespeichert werden
-export let  stundenPlan = {
+export let  stundenPlan2 = {
     moA: ['deutsch','englisch','mathe', 'sport'],
     diA: ['geschi','mathe'],
     miA: ['sport','deutsch','powi'],
