@@ -202,14 +202,17 @@ function getTimeInMin(){
 
 function convertTimeToLesson(d, plan){
     const time = getTimeInMin()
-    Timetable.forEach((element, index) => {
-        //console.log(element)
-        if(time <= element){
-            console.log(index)
-            return index - 1
+    console.log(time)
+
+
+    for(let index = 0; index < Timetable.length; index++) {
+        //console.log(Timetable[index]);
+        if(time <= Timetable[index]){
+            console.log('Index: ', index);
+            return index - 1;
         }
-    });
-    console.log('return:', stundenPlan[d].length - 1)
+    }
+    console.log('return index:', stundenPlan[d].length - 1)
     return plan[d].length - 1
 }
 
