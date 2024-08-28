@@ -6,6 +6,7 @@ import * as s from '../scripts/stundenplan'
 
 
 export default function SettingsView({ navigation, route}) {
+  const { ColourStyle } = route.params;
   const [selectedSubject, setSelectedSubject] = useState();
   const [items, setitems] = useState()
   const [text, onChangeText] = React.useState('');
@@ -16,7 +17,7 @@ export default function SettingsView({ navigation, route}) {
     for (i in s.SubjectList){
       const item = s.SubjectList[i]
       newItems.push(
-        <Picker.Item label={item} value={item} key={i}/>
+        <Picker.Item label={item} value={item} color={ColourStyle.text.color} key={i}/>
       )
     }
     setitems(newItems)}
@@ -38,7 +39,7 @@ export default function SettingsView({ navigation, route}) {
   
 
   return ( 
-    <View >
+    <View flex={1} backgroundColor={ColourStyle.background.backgroundColor}>
       <Button title='Hinzufügen' onPress={add}/>
       <TextInput
         style={styles.input}

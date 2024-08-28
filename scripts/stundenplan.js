@@ -59,6 +59,14 @@ export let  stundenPlan = {
     soB: [],
 }
 
+export const TimeList = [
+    '07:50\n09:20',
+    '9:40\n11:10',
+    '11:30\n13:00',
+    '13:45\n15:15',
+    '15:25\n16:55',
+]
+
 
 
 const getSubjectList = async () => {

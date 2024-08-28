@@ -8,7 +8,8 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 
 
-const AddLesson = ({day, nav}) => {
+const AddLesson = ({day, nav, ColourStyle}) => {
+    const styles2 = CreateStyles(ColourStyle)
     return (
         <View style={styles2.addLesson}>
             <Pressable onPress={() => {nav.navigate('Hinzufügen', {day: day })}}>
@@ -19,7 +20,8 @@ const AddLesson = ({day, nav}) => {
     )
 }
 
-const Tag = ({day, woche, nav}) => {
+export const Tag = ({day, woche, nav, ColourStyle}) => {
+    const styles2 = CreateStyles(ColourStyle)
     const DayFull = s.weekdayfull[day]
     const [lessons, setlessons] = useState([])
     useEffect(() => {
@@ -28,7 +30,7 @@ const Tag = ({day, woche, nav}) => {
             const newLessons = []
             s.stundenPlan[day + woche].forEach(
             (item, i) => {
-                newLessons.push(<Lesson key = {i} fach={item} day = {day+woche} nav = {nav}/>)
+                newLessons.push(<Lesson key = {i} fach={item} day = {day+woche} nav = {nav} ColourStyle={ColourStyle}/>)
             }
         )
         setlessons(newLessons)
@@ -47,13 +49,13 @@ const Tag = ({day, woche, nav}) => {
             </View> */}
             
             {lessons}
-            <AddLesson day = {day+woche} nav = {nav}/>
+            <AddLesson day = {day+woche} nav = {nav} ColourStyle={ColourStyle}/>
         </View>
     )
 }
-export default Tag
 
-const Lesson = ({fach, day, nav}) => {
+const Lesson = ({fach, day, nav, ColourStyle}) => {
+    const styles2 = CreateStyles(ColourStyle)
     return ( 
         <Pressable onPress={() => {console.log(day, fach); nav.navigate('Editieren', {lesson: fach, day: day })}}>
             <View style={styles2.lesson}>
@@ -64,7 +66,27 @@ const Lesson = ({fach, day, nav}) => {
     )
 }
 
-const styles2 = StyleSheet.create({
+
+export const Times = ({ColourStyle}) => {
+    const styles2 = CreateStyles(ColourStyle)
+    const items = []
+    for (i of s.TimeList){
+        items.push(
+            <View style={styles2.lesson} key={i}>
+                <Text style={styles2.lessonTxt}>{i}</Text>
+            </View>
+        )
+    }
+    return (
+        <View style={styles2.coloumnTime}>
+            {items}
+        </View>
+    )
+}
+
+
+function CreateStyles (s) {
+    return StyleSheet.create({
     coloumn: {
         //backgroundColor: 'green',
         flexDirection: 'coloumn',
@@ -74,16 +96,14 @@ const styles2 = StyleSheet.create({
         //paddingTop: 20
         
     },
-    header: {
-        backgroundColor: '#DE0D4F',
-        //margin: 1.5,
-        marginBottom: 10,
-        height: 35,
-        justifyContent: 'center',
-    },
-    headerTxt: {
-        fontSize: 12,
-        alignSelf: 'center'
+    coloumnTime: {
+        //backgroundColor: 'green',
+        flexDirection: 'coloumn',
+        width: 40,
+        borderLeftWidth: 1.5,
+        borderWidth: 0,
+        //paddingTop: 20
+        
     },
     lesson: {
         backgroundColor: '#134ECF',
@@ -94,7 +114,8 @@ const styles2 = StyleSheet.create({
         borderRadius: 5,
     },
     lessonTxt: {
-        alignSelf: 'center'
+        alignSelf: 'center',
+        color: s.text.color
     },
     addLesson: {
         backgroundColor: '#DE0D4F',
@@ -105,7 +126,9 @@ const styles2 = StyleSheet.create({
         borderRadius: 5
     },
     addLessonTxt: {
-        alignSelf: 'center'
+        alignSelf: 'center',
+        color: s.text.color
     }
     
 })
+}

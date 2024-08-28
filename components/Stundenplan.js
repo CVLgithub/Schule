@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, View, Text, Button, Platform } from 'react-nati
 import React, { useEffect, useState } from 'react';
 
 import * as s from '../scripts/stundenplan'
-import Tag from './stundenplanComps'
+import {Tag, Times} from './stundenplanComps'
 
 const screenWidth = Dimensions.get('window').width; //full width
 const screenHeight = Dimensions.get('window').height; //full height
@@ -10,7 +10,8 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 
 
-export default function StundenPlan({navigation, reload}){
+
+export default function StundenPlan({navigation, reload, ColourStyle}){
     const woche = s.woche
     const [columns, setColumns] = useState([]);
     console.log('generate')
@@ -19,13 +20,14 @@ export default function StundenPlan({navigation, reload}){
     const generateColumns = () => {
         console.log('Generating columns'); // Debugging line
         const newColumns = [];
+        newColumns.push(<Times key={'-1'} ColourStyle={ColourStyle}/>);
         for (i in s.stundenPlan) {
             console.log('i', i)
         const day = i.slice(0, 2);
         if (day === 'so' || day === 'sa') {
             break;
         }
-        newColumns.push(<Tag key={i} day={day} woche={woche} nav={navigation} />);
+        newColumns.push(<Tag key={i} day={day} woche={woche} nav={navigation} ColourStyle={ColourStyle} />);
         }
         setColumns(newColumns);
     };

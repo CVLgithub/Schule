@@ -5,6 +5,7 @@ import {Picker} from '@react-native-picker/picker';
 import * as s from '../scripts/stundenplan'
 
 export default function AddView({ navigation, route}) {
+  const { ColourStyle } = route.params;
   const [selectedSubject, setSelectedSubject] = useState();
   const [items, setitems] = useState()
   const { day  } = route.params;
@@ -27,7 +28,7 @@ export default function AddView({ navigation, route}) {
           setSelectedSubject(item)
         }
         newItems.push(
-          <Picker.Item label={item} value={item} key={i}/>
+          <Picker.Item label={item} value={item} color={ColourStyle.text.color} key={i}/>
         )
       console.log(i)
       }
@@ -37,7 +38,7 @@ export default function AddView({ navigation, route}) {
 
 
   return ( 
-    <View >
+    <View flex={1} backgroundColor={ColourStyle.background.backgroundColor} >
       <Text>{day}</Text>
       <Picker
         selectedValue={selectedSubject}

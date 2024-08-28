@@ -51,7 +51,11 @@ async function getStoredStunendplan(){
 
 
 export default function Main({ navigation, route }) {
-  console.log('main');
+  const { ColourStyle } = route.params;
+  console.log('FROM MAIN:', ColourStyle)
+  styles = CreateStyles(ColourStyle)
+
+  console.log('FROM MAIN:', styles.container)
   navigation.setOptions({
     headerRight: () => <Button onPress={() => navigation.navigate('Einstellungen')} title='Einstellungen'/>
   })
@@ -66,7 +70,7 @@ export default function Main({ navigation, route }) {
   const [pickerVar, setPicker] = useState(0)
 
   const loadStundenPlan = () => {
-    setStundenPlan(<StundenPlan navigation={navigation} reload={Math.random()} />);
+    setStundenPlan(<StundenPlan navigation={navigation} reload={Math.random()} ColourStyle={ColourStyle} />);
   };
 
   const confPicker = () => {
@@ -78,7 +82,7 @@ export default function Main({ navigation, route }) {
           setSelectedSubject(item)
         }
         newItems.push(
-          <Picker.Item styles={styles.pickerItem}label={item} value={item} key={i}/>
+          <Picker.Item styles={styles.pickerItem} label={item} value={item} color={ColourStyle.text.color} key={i}/>
         )
         console.log('test')
       }
@@ -209,7 +213,7 @@ export default function Main({ navigation, route }) {
     return (
       
       <Animated.View style={[styles.SwitchState, styles.buttonLeft, animatedleft]}>
-        <Pressable onPress={handlePress} hitSlop={50}>
+        <Pressable onPress={handlePress} hitSlop={10}>
           <Text>Auto</Text>
         </Pressable>
       </Animated.View>
@@ -219,7 +223,7 @@ export default function Main({ navigation, route }) {
   const ButtonRight = () => {
     return (
       <Animated.View style={[styles.SwitchState, styles.buttonRight, animatedRight]}>
-        <Pressable onPress={handlePress} hitSlop={50}>
+        <Pressable onPress={handlePress} hitSlop={10}>
           <Text>Eigenes Fach</Text>
         </Pressable>
       </Animated.View>
@@ -257,6 +261,11 @@ export default function Main({ navigation, route }) {
   const Header = () => {
     console.log('Generating columns'); // Debugging line
     const newColumns = [];
+    newColumns.push(
+      <View style = {styles.headerItemTime} key={'time'}>
+        <Text style = {styles.headerTxt}>Zeit</Text>
+      </View>
+    );
     for (i in plan.stundenPlan) {
       console.log('i', i)
       const day = i.slice(0, 2);
@@ -286,13 +295,17 @@ export default function Main({ navigation, route }) {
         style={styles.input}
         onChangeText={onChangeText}
         value={text}
-        placeholder="Hausaufgabe:"
+        placeholder={'Hausaufgabe'}
         height={50}
         margin={15}
+        placeholderTextColor={ColourStyle.text.color2}
+        textAlign='center'
+        color={ColourStyle.text.color}
       />
       <Switch/>
       <SubjectSelect/>
-      <Button title='Hausaufgabe hinzufügen' onPress={() => {
+      <View style={styles.add}>
+        <Button  color={ColourStyle.text.color} title='Hausaufgabe hinzufügen' onPress={() => {
       
         if(SwitchState == 'auto'){
           plan.handlePress(id, text, plan.stundenPlan)
@@ -300,6 +313,8 @@ export default function Main({ navigation, route }) {
           plan.handlePressCustom(id, text, plan.stundenPlan, selectedSubject )
         }
       }} />
+      </View>
+      
       <ScrollView ref={scrollRef} style={styles.scroll} bounces={false} stickyHeaderIndices={[0]}>
         <Header/>
         {stundenPlanItem}
@@ -310,76 +325,102 @@ export default function Main({ navigation, route }) {
 }
 
 
+function CreateStyles(s){ return StyleSheet.create({
+  container: {
+    flex: 1,
+    //backgroundColor: '#fff',
+    backgroundColor: s.background.backgroundColor,
+    alignItems: 'center',
+    //justifyContent: 'space-around',
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    padding: 5,
+    //backgroundColor: 'blue'
+  },
+  buttonLeft: {
+    backgroundColor: 'green',
+    borderBottomLeftRadius: 5
+  },
+  buttonRight: {
+    flexDirection: 'row-reverse',
+    backgroundColor: 'red',
+    borderBottomRightRadius: 5
+  },
+  SwitchState: {
+    borderWidth: 1,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    height: 25,
+    padding: 5,
+  },
+  scroll: {
+    marginBottom: 10,
+    borderBottomWidth: 1.5,
+    flex: 1,
+    maxHeight: 420,
+    marginHorizontal: 20,
+    paddingBottom:10,
+  },
+  pickerItem: {
+    height: 10,
+    backgroundColor: 'blue'
+  },
+  picker: {
+    //backgroundColor: 'green',
+    //height: 100
+  },
+  pickerContainer: {
+    //height: 20,
+    //marginBottom: 150,
+    flex: 1,
+    width: 220,
+    //padding: 20,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    borderRightWidth: 1.5,
+  },
+  headerItem: {
+    backgroundColor: '#DE0D4F',
+    height: 40,
+    justifyContent: 'center',
+    flex: 1,
+    position: 'absolut',
+    top: -2,
+    borderLeftWidth: 1.5,
+    borderTopWidth: 3.5,
+    borderBottomWidth: 1.5
+  },
+  headerItemTime: {
+    backgroundColor: '#DE0D4F',
+    height: 40,
+    justifyContent: 'center',
+    //flex: 1,
+    position: 'absolut',
+    top: -2,
+    borderLeftWidth: 1.5,
+    borderTopWidth: 3.5,
+    borderBottomWidth: 1.5,
+    width: 40
+  },
+  headerTxt: {
+    fontSize: 12,
+    alignSelf: 'center',
+    color: s.text.color
+  },
+  input: {
+    borderWidth: 1,
+    width: 300,
+  },
+  add: {
+    borderWidth: 1,
+    borderRadius: 8,
+    backgroundColor: s.secondary.color,
+    //backgroundColor: 'green',  
+    margin: 25 
+  }
+  })
+}
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        //justifyContent: 'space-around',
-    },
-    switchContainer: {
-      flexDirection: 'row',
-      padding: 5,
-      //backgroundColor: 'blue'
-    },
-    buttonLeft: {
-      backgroundColor: 'green',
-      borderBottomLeftRadius: 5
-    },
-    buttonRight: {
-      flexDirection: 'row-reverse',
-      backgroundColor: 'red',
-      borderBottomRightRadius: 5
-    },
-    SwitchState: {
-      borderWidth: 1,
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
-      height: 25,
-      padding: 5,
-    },
-    scroll: {
-      marginBottom: 10,
-      borderBottomWidth: 1.5,
-      flex: 1,
-      maxHeight: 420,
-      marginHorizontal: 20,
-      paddingBottom:10,
-    },
-    pickerItem: {
-      height: 10,
-      backgroundColor: 'blue'
-    },
-    picker: {
-      //backgroundColor: 'green',
-      //height: 100
-    },
-    pickerContainer: {
-      //height: 20,
-      //marginBottom: 150,
-      flex: 1,
-      width: 220,
-      //padding: 20,
-    },
-    headerContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      borderRightWidth: 1.5,
-    },
-    headerItem: {
-      backgroundColor: '#DE0D4F',
-      height: 40,
-      justifyContent: 'center',
-      flex: 1,
-      position: 'absolut',
-      top: -2,
-      borderLeftWidth: 1.5,
-      borderTopWidth: 3.5,
-      borderBottomWidth: 1.5
-    },
-    headerTxt: {
-      fontSize: 12,
-      alignSelf: 'center'
-    },
-    });

@@ -5,7 +5,7 @@ import {Picker} from '@react-native-picker/picker';
 import * as s from '../scripts/stundenplan'
 
 export default function EditView({ navigation, route}) {
-  const { lesson, day  } = route.params;
+  const { lesson, day, ColourStyle  } = route.params;
 
   const edit = () => {
     const index = s.stundenPlan[day].indexOf(lesson)
@@ -44,7 +44,7 @@ export default function EditView({ navigation, route}) {
           setSelectedSubject(item)
         }
         newItems.push(
-          <Picker.Item label={item} value={item} key={i}/>
+          <Picker.Item label={item} value={item} color={ColourStyle.text.color} key={i}/>
         )
       console.log(i)
       }
@@ -55,7 +55,7 @@ export default function EditView({ navigation, route}) {
   
 
   return ( 
-    <View >
+    <View flex={1} backgroundColor={ColourStyle.background.backgroundColor}>
       
       <Picker
         selectedValue={selectedSubject}
