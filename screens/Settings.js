@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
+import { Settings } from '../App';
 
 
 export default function SettingsView({ navigation, route}) {
@@ -36,6 +37,14 @@ export default function SettingsView({ navigation, route}) {
     s.saveSubjects()
     navigation.navigate('Einstellungen', { refresh: Math.random() })
   }
+
+  const changeStartAtSameTime = () => {
+    Settings.startAtSameTime = !Settings.startAtSameTime
+  }
+
+  const changeLightMode = () => {
+    Settings.alwayslight = !Settings.alwayslight
+  }
   
 
   return ( 
@@ -55,6 +64,8 @@ export default function SettingsView({ navigation, route}) {
         {items}
       </Picker>
       <Button title='Delete' onPress={deleteSubject}/>
+      <Button title={'Start at same time:' + ' ' + Settings.startAtSameTime} onPress={changeStartAtSameTime}/>
+      <Button title={'AlwaysLight' + ' ' + Settings.alwayslight} onPress={changeLightMode}/>
     </View>
   );
 }

@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import * as cal from './calendar'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Settings } from '../App';
 
 
 
@@ -14,10 +15,11 @@ const getTypeOfWeek = () => {
     const dUTC = new Date();
     const day = moment(dUTC).tz('Europe/Berlin').toDate();
     const week = getISOWeekNumber(day)
+    console.log('WEEK', week, dUTC, day.getDate())
     if ((week % 2) == 0){
-        return 'A'
+        return 'B'
     }
-    return 'B'
+    return 'A'
 }
 
 export let woche = getTypeOfWeek()
@@ -122,17 +124,31 @@ export async function getData(key, callback) {
 };
 
 
+function findeTime(fach, dAsLetter, plan) {
+    console.log(dAsLetter, plan[dAsLetter], fach)
+    return Timetable[plan[dAsLetter].indexOf(fach)] 
+}
+
 export function nextDate(fach,plan){
     const dUTC = new Date();
     const day = moment(dUTC).tz('Europe/Berlin').toDate();
     console.log(day)
-    const nextDate = findNextLesson(fach, day, plan )
+    const [nextDate, dAsletter] = findNextLesson(fach, day, plan )
+    console.log('finished')
+    const time = findeTime(fach, dAsletter, plan)
+    const min = time % 60
+    const hours = (time - min) / 60
+    console.log('TIME',hours, min)
     console.log(nextDate)
     day.setDate(day.getDate() + nextDate)
-    console.log('retruning', day)
+    if (Settings.startAtSameTime){
+       day.setHours(hours)
+    day.setMinutes(min) 
+    }
+    //console.log('tag:', day.getHours())
+    //console.log('retruning', day)
     return day
 }
-
 
 function findNextLesson(fach, d, plan){
     const day = weekday[parseInt(d.getDay())] + woche;
@@ -141,26 +157,40 @@ function findNextLesson(fach, d, plan){
     for (i in dayList){
         if (dayList[i] == day){
             const startDay = parseInt(i)
-            const nextDay = recursion(fach,plan, startDay + 1)
+            const [nextDay, dayAsletter] = recursion(fach,plan, startDay + 1)
+            console.log(14 - startDay + nextDay, 'HERE')
+
+            //error 
+            if (nextDay == -1){
+                console.log('ERROR')
+                return [0, 'moA']
+            }
             if (startDay == nextDay){
-                return 7
+                return [7, dayAsletter]
             }
             else if (startDay > nextDay){
-                return (14 - startDay + nextDay)
+                return [(14 - startDay + nextDay), dayAsletter]
             }
-            return nextDay - (startDay)
+            return [nextDay - (startDay), dayAsletter]
         }
     }
 }
 
 function recursion(fach,plan, index, runtime = 0){
-    if (runtime >= 18){return 0}
+    //STOP - too many runs
+    if (runtime >= 18){return -1}
+
+    //Try again from start
     if (index >= 14){   
         return recursion(fach,plan, 1, runtime + 1)
     }
+
+    //Finale Case
     if (plan[dayList[index]].includes(fach)){
-        return index
+        return [index,dayList[index]]
     }
+
+    //re-run
     return recursion(fach,plan, index + 1, runtime + 1)
 }
 
@@ -182,7 +212,7 @@ export function	handlePressCustom(id,text,plan, Subject){
 
 
 
-const Timetable = [7*60+50,9*60+40,11*60+30,13*60]
+const Timetable = [7*60+50,9*60+40,11*60+30,13*60+45,15*60+25,16*60+55]
 
 
 function getlesson(plan){
