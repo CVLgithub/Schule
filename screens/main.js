@@ -56,9 +56,7 @@ export default function Main({ navigation, route }) {
   styles = CreateStyles(ColourStyle)
 
   console.log('FROM MAIN:', styles.container)
-  navigation.setOptions({
-    headerRight: () => <Button onPress={() => navigation.navigate('Einstellungen')} title='Einstellungen'/>
-  })
+  
   
 
   const [id, setId] = useState(0);
@@ -90,7 +88,9 @@ export default function Main({ navigation, route }) {
   }
 
   useEffect(() => {
-  
+    navigation.setOptions({
+      headerRight: () => <Button onPress={() => navigation.navigate('Einstellungen')} title='Einstellungen'/>
+    })
     const x = () => {
       if (items == 0){return}
 

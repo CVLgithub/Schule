@@ -11,17 +11,28 @@ export default function SettingsView({ navigation, route}) {
   const [selectedSubject, setSelectedSubject] = useState();
   const [items, setitems] = useState()
   const [text, onChangeText] = React.useState('');
+  const [EvenIsA, setEvenIsA] = useState('')
+  const [AlwaysLight, setAlwaysLight] = useState(Settings.alwayslight)
+  const [StartAtSameTime, setStartAtSameTime] = useState(Settings.startAtSameTime)
 
+  const getEvenIsA = async() => {
+    const data = await s.getData('EvenWeekIsA', (x) => {return(x)})
+    if (data == 'error'){return}
+      setEvenIsA(data)
+  }
 
   useEffect(
-    () => {const newItems = []
-    for (i in s.SubjectList){
-      const item = s.SubjectList[i]
-      newItems.push(
-        <Picker.Item label={item} value={item} color={ColourStyle.text.color} key={i}/>
-      )
-    }
-    setitems(newItems)}
+    () => {
+      const newItems = []
+      for (i in s.SubjectList){
+        const item = s.SubjectList[i]
+        newItems.push(
+          <Picker.Item label={item} value={item} color={ColourStyle.text.color} key={i}/>
+        )
+      }
+      setitems(newItems)
+      getEvenIsA()
+    }     
     ,[route.params?.refresh]
   )
 
@@ -39,13 +50,29 @@ export default function SettingsView({ navigation, route}) {
   }
 
   const changeStartAtSameTime = () => {
-    Settings.startAtSameTime = !Settings.startAtSameTime
+    setStartAtSameTime(!StartAtSameTime)
   }
 
   const changeLightMode = () => {
-    Settings.alwayslight = !Settings.alwayslight
+    setAlwaysLight(!AlwaysLight)
   }
+
+  useEffect(
+    () => {
+      Settings.alwayslight = AlwaysLight,
+      Settings.startAtSameTime = StartAtSameTime
+    },
+    [StartAtSameTime,AlwaysLight]
+  )
   
+  const changeEvenIsA = () => {
+    setEvenIsA(!EvenIsA)
+    
+  }
+  useEffect(
+    ()=> {s.storeData('EvenWeekIsA', EvenIsA)},
+    [EvenIsA]
+  )
 
   return ( 
     <View flex={1} backgroundColor={ColourStyle.background.backgroundColor}>
@@ -64,8 +91,9 @@ export default function SettingsView({ navigation, route}) {
         {items}
       </Picker>
       <Button title='Delete' onPress={deleteSubject}/>
-      <Button title={'Start at same time:' + ' ' + Settings.startAtSameTime} onPress={changeStartAtSameTime}/>
-      <Button title={'AlwaysLight' + ' ' + Settings.alwayslight} onPress={changeLightMode}/>
+      <Button title={'Start at same time:' + ' ' + StartAtSameTime} onPress={changeStartAtSameTime}/>
+      <Button title={'AlwaysLight' + ' ' + AlwaysLight + '  -No use'} onPress={changeLightMode}/>
+      <Button title={'EvenIsA' + ' ' + EvenIsA} onPress={changeEvenIsA}/>
     </View>
   );
 }

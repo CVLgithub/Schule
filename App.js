@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 
 export let Settings = {
   'alwayslight': false,
-  'startAtSameTime': true
+  'startAtSameTime': true,
 }
 
 const screenWidth = Dimensions.get('window').width; // full width

@@ -11,14 +11,44 @@ const weekday = ["so","mo","di","mi","do","fr","sa"];
 export const weekdayfull ={so:"Sonntag",mo:"Montag",di:"Dienstag",mi:"Mittwoch",do:"Donnerstag",fr:"Freitag",sa:"Samstag"}
     
 
-const getTypeOfWeek = () => {
+//updates the week
+const checkWeek = async (weekNum) => {
+    const EvenIsA = await getData('EvenWeekIsA', (x) => {return(x)})
+    if (EvenIsA == 'error'){console.log('WEEK ERROR'); return}
+    console.log(EvenIsA, '<------ WEEK')
+    if (EvenIsA && (weekNum % 2) == 0){
+        console.log('WEEK UPDATE TO A')
+        woche = 'A'
+        return
+    }
+    if (!EvenIsA && (weekNum % 2) == 0){
+        console.log('WEEK UPDATE TO B')
+        woche = 'B'
+        return
+    }
+    if (EvenIsA && (weekNum % 2) != 0){
+        console.log('WEEK UPDATE TO A2')
+        woche = 'A'
+        return
+    }
+    if (!EvenIsA && (weekNum % 2) != 0){
+        console.log('WEEK UPDATE TO B2')
+        woche = 'B'
+        return
+    }
+}
+
+const getTypeOfWeek = () => {  
     const dUTC = new Date();
     const day = moment(dUTC).tz('Europe/Berlin').toDate();
     const week = getISOWeekNumber(day)
-    console.log('WEEK', week, dUTC, day.getDate())
+    console.log('WEEK', week, dUTC, day.getDate(),(week % 2) )
+    checkWeek((week % 2))
     if ((week % 2) == 0){
+        console.log('WEEK B')
         return 'B'
     }
+    console.log('WEEK A')
     return 'A'
 }
 
