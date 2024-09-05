@@ -115,7 +115,8 @@ function CreateStyles (s) {
     },
     lessonTxt: {
         alignSelf: 'center',
-        color: s.text.color
+        color: s.text.color,
+        fontVariant: ['tabular-nums'],
     },
     addLesson: {
         backgroundColor: '#024670',
