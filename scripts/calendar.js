@@ -61,7 +61,7 @@ if (id !== 0) {
     startDate: startDate, 
     endDate: endTime,  
     timeZone: 'UTC',
-    location: 'Frankfurt',
+    location: notizen,
     alarms: [
         {
             relativeOffset: -1440, // 1440 Minuten = 24 Stunden vorher
