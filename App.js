@@ -30,7 +30,7 @@ const DarkTheme = StyleSheet.create({
     backgroundColor: 'black',
   },
   secondary: {
-    color: '#0000a0'
+    color: '#107C02'
   }
 })
 
@@ -42,7 +42,7 @@ const LightTheme = StyleSheet.create({
     backgroundColor: 'white' 
   },
   secondary: {
-    color: '#0080ff'
+    color: '#10A607'
   }
 })
 

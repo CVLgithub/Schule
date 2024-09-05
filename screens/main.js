@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationRouteContext } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring, Easing } from 'react-native-reanimated';
 import {Picker} from '@react-native-picker/picker';
+import SettingsIcon from '../components/settings';
 
 async function storeData(key, data) {
   try {
@@ -89,7 +90,7 @@ export default function Main({ navigation, route }) {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <Button onPress={() => navigation.navigate('Einstellungen')} title='Einstellungen'/>
+      headerRight: () => <SettingsIcon func={() => navigation.navigate('Einstellungen')}/>
     })
     const x = () => {
       if (items == 0){return}
@@ -169,7 +170,7 @@ export default function Main({ navigation, route }) {
     },
     color: {
       left: 'green',
-      right: 'red'
+      right: '#00334B'
     }
   }
   const SwitchDicRight = {
@@ -178,7 +179,7 @@ export default function Main({ navigation, route }) {
       right: 110
     },
     color: {
-      left: 'red',
+      left: '#00334B',
       right: 'green'
     }
   }
@@ -214,7 +215,7 @@ export default function Main({ navigation, route }) {
       
       <Animated.View style={[styles.SwitchState, styles.buttonLeft, animatedleft]}>
         <Pressable onPress={handlePress} hitSlop={10}>
-          <Text>Auto</Text>
+          <Text style={{color: ColourStyle.text.color}} >Auto</Text>
         </Pressable>
       </Animated.View>
     )
@@ -224,7 +225,7 @@ export default function Main({ navigation, route }) {
     return (
       <Animated.View style={[styles.SwitchState, styles.buttonRight, animatedRight]}>
         <Pressable onPress={handlePress} hitSlop={10}>
-          <Text>Eigenes Fach</Text>
+          <Text style={{color: ColourStyle.text.color}}>Eigenes Fach</Text>
         </Pressable>
       </Animated.View>
     )
@@ -383,7 +384,7 @@ function CreateStyles(s){ return StyleSheet.create({
     borderRightWidth: 1.5,
   },
   headerItem: {
-    backgroundColor: '#DE0D4F',
+    backgroundColor: '#00334B',
     height: 40,
     justifyContent: 'center',
     flex: 1,
@@ -394,7 +395,7 @@ function CreateStyles(s){ return StyleSheet.create({
     borderBottomWidth: 1.5
   },
   headerItemTime: {
-    backgroundColor: '#DE0D4F',
+    backgroundColor: '#00334B',
     height: 40,
     justifyContent: 'center',
     //flex: 1,

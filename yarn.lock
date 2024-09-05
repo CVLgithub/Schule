@@ -3133,6 +3133,13 @@ expo-structured-headers@~3.8.0:
   resolved "https://registry.npmjs.org/expo-structured-headers/-/expo-structured-headers-3.8.0.tgz"
   integrity sha512-R+gFGn0x5CWl4OVlk2j1bJTJIz4KO8mPoCHpRHmfqMjmrMvrOM0qQSY3V5NHXwp1yT/L2v8aUmFQsBRIdvi1XA==
 
+expo-symbols@~0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/expo-symbols/-/expo-symbols-0.1.5.tgz#8e9dedb7789f113272d63285556137698a15e283"
+  integrity sha512-55D6uq59DxArMad4alWQn5ZsaGkB/pWWVKvl6M9KmQBUdFRWRO2oXxaLzv8cufLts8F5BvngOtd1XiQZQjsOsg==
+  dependencies:
+    sf-symbols-typescript "^2.0.0"
+
 expo-updates-interface@~0.16.2:
   version "0.16.2"
   resolved "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-0.16.2.tgz"
@@ -5847,6 +5854,11 @@ setprototypeof@1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz"
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
+
+sf-symbols-typescript@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/sf-symbols-typescript/-/sf-symbols-typescript-2.0.0.tgz#52548c84d124914faed1868c55bb71bffac472f1"
+  integrity sha512-Fc8Uhhl2plqXMw7GQ8q83t/zj1xhNCJvteDNJUDULaH/4a/Eqw5aW1UYEznyEIgkokw7QYXuQ9hOw8jhBLXL0A==
 
 shallow-clone@^3.0.0:
   version "3.0.1"

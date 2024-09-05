@@ -106,7 +106,7 @@ function CreateStyles (s) {
         
     },
     lesson: {
-        backgroundColor: '#134ECF',
+        backgroundColor: '#095795',
         marginVertical: 5,
         height: 60,
         margin: 1.5,
@@ -118,7 +118,7 @@ function CreateStyles (s) {
         color: s.text.color
     },
     addLesson: {
-        backgroundColor: '#DE0D4F',
+        backgroundColor: '#024670',
         marginVertical: 5,
         height: 60,
         margin: 1.5,
