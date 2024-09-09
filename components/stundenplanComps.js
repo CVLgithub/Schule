@@ -106,7 +106,7 @@ function CreateStyles (s) {
         
     },
     lesson: {
-        backgroundColor: '#095795',
+        backgroundColor: s.primary.color,
         marginVertical: 5,
         height: 60,
         margin: 1.5,
@@ -119,7 +119,7 @@ function CreateStyles (s) {
         fontVariant: ['tabular-nums'],
     },
     addLesson: {
-        backgroundColor: '#024670',
+        backgroundColor: s.extra.color,
         marginVertical: 5,
         height: 60,
         margin: 1.5,
