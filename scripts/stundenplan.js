@@ -28,12 +28,12 @@ const checkWeek = async (weekNum) => {
     }
     if (EvenIsA && (weekNum % 2) != 0){
         console.log('WEEK UPDATE TO A2')
-        woche = 'A'
+        woche = 'B'
         return
     }
     if (!EvenIsA && (weekNum % 2) != 0){
         console.log('WEEK UPDATE TO B2')
-        woche = 'B'
+        woche = 'A'
         return
     }
 }
@@ -41,7 +41,7 @@ const checkWeek = async (weekNum) => {
 const getTypeOfWeek = () => {  
     const dUTC = new Date();
     const day = moment(dUTC).tz('Europe/Berlin').toDate();
-    const week = getISOWeekNumber(day)
+    const week = getISOWeekNumberInGermany(day)
     console.log('WEEK', week, dUTC, day.getDate(),(week % 2) )
     checkWeek((week % 2))
     if ((week % 2) == 0){
@@ -288,13 +288,16 @@ function convertTimeToLesson(d, plan){
 
 function getISOWeekNumber(date) {
     // Kopiere das Datum und setze die Uhrzeit auf Mitternacht
-    const tempDate = new Date(date);
+    const tempDate =  new Date(date);
     tempDate.setHours(0, 0, 0, 0);
+    console.log('WEEK:::::', tempDate.toDateString())
 
     // Setze das Datum auf Montag der aktuellen Woche
     const day = tempDate.getDay();
     const diff = (day === 0 ? -6 : 1) - day;  // 1 = Montag, falls Sonntag (-6)
     tempDate.setDate(tempDate.getDate() + diff);
+
+    console.log('WEEK2:::::', tempDate.toDateString())
 
     // Setze den Donnerstag dieser Woche
     const thursday = new Date(tempDate);
@@ -308,5 +311,15 @@ function getISOWeekNumber(date) {
 
     // Berechne die Kalenderwoche
     const weekNumber = Math.floor((thursday - firstThursday) / (7 * 24 * 60 * 60 * 1000)) + 1;
+    console.log('WEEK::', weekNumber)
+    return weekNumber;
+}
+
+function getISOWeekNumberInGermany(date) {
+    // Setze das Datum in die Zeitzone von Deutschland (Europe/Berlin)
+    const dateInGermany = moment.tz(date, 'Europe/Berlin');
+    
+    // Berechne die ISO-Kalenderwoche
+    const weekNumber = dateInGermany.isoWeek();
     return weekNumber;
 }
