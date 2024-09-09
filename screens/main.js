@@ -169,8 +169,8 @@ export default function Main({ navigation, route }) {
       right: 60
     },
     color: {
-      left: 'green',
-      right: '#00334B'
+      left: ColourStyle.secondary.color,
+      right: ColourStyle.third.color
     }
   }
   const SwitchDicRight = {
@@ -179,8 +179,8 @@ export default function Main({ navigation, route }) {
       right: 110
     },
     color: {
-      left: '#00334B',
-      right: 'green'
+      left: ColourStyle.third.color,
+      right: ColourStyle.secondary.color
     }
   }
 
@@ -384,7 +384,7 @@ function CreateStyles(s){ return StyleSheet.create({
     borderRightWidth: 1.5,
   },
   headerItem: {
-    backgroundColor: '#00334B',
+    backgroundColor: s.third.color,
     height: 40,
     justifyContent: 'center',
     flex: 1,
@@ -395,7 +395,7 @@ function CreateStyles(s){ return StyleSheet.create({
     borderBottomWidth: 1.5
   },
   headerItemTime: {
-    backgroundColor: '#00334B',
+    backgroundColor: s.third.color,
     height: 40,
     justifyContent: 'center',
     //flex: 1,

@@ -29,8 +29,17 @@ const DarkTheme = StyleSheet.create({
   background: {
     backgroundColor: 'black',
   },
+  primary: {
+    color: '#095795'
+  },
   secondary: {
     color: '#107C02'
+  },
+  third: {
+    color: '#00334B'
+  },
+  extra: {
+    color: '#024670'
   }
 })
 
@@ -43,6 +52,15 @@ const LightTheme = StyleSheet.create({
   },
   secondary: {
     color: '#10A607'
+  },
+  primary: {
+    color: '#095795'
+  },
+  third: {
+    color: '#134ECF'
+  },
+  extra: {
+    color: '#024670'
   }
 })
 
