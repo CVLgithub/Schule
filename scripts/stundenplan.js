@@ -286,17 +286,19 @@ function convertTimeToLesson(d, plan){
 }
 
 
-
 function getISOWeekNumber(date) {
     // Kopiere das Datum und setze die Uhrzeit auf Mitternacht
     const tempDate = new Date(date);
     tempDate.setHours(0, 0, 0, 0);
 
-    // Setze den Donnerstag der aktuellen Woche
+    // Setze das Datum auf Montag der aktuellen Woche
     const day = tempDate.getDay();
-    const diff = (day <= 3 ? 0 : 7) - day + 3;
+    const diff = (day === 0 ? -6 : 1) - day;  // 1 = Montag, falls Sonntag (-6)
+    tempDate.setDate(tempDate.getDate() + diff);
+
+    // Setze den Donnerstag dieser Woche
     const thursday = new Date(tempDate);
-    thursday.setDate(tempDate.getDate() + diff);
+    thursday.setDate(tempDate.getDate() + 3);
 
     // Berechne die erste Kalenderwoche des Jahres
     const firstThursday = new Date(thursday.getFullYear(), 0, 1);
