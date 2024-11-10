@@ -89,29 +89,10 @@ export default function Main({ navigation, route }) {
   }
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <SettingsIcon func={() => navigation.navigate('Einstellungen')}/>
-    })
-    const x = () => {
-      if (items == 0){return}
-
-      setPicker(<Picker
-      numberOfLines={1}
-      style={styles.picker}
-      height={200}
-      selectedValue={selectedSubject}
-      onValueChange={(itemValue, itemIndex) =>
-        setSelectedSubject(itemValue)
-      }>
-      {items}
-    </Picker>)
-    }
-    x()
-    
-  }, [items])
-
-  useEffect(() => {
     async function run() {
+      navigation.setOptions({
+        headerRight: () => <SettingsIcon func={() => navigation.navigate('Einstellungen')}/>
+      })
       console.log('EFFECT 1 ______________________________')
       await getStoredStunendplan()
       console.log('state');
@@ -246,10 +227,20 @@ export default function Main({ navigation, route }) {
   const SubjectSelect = () => {
 
     if (SwitchState == 'custom'){
-      console.log(pickerVar)
+      //console.log(pickerVar)
       return (
           <View style={styles.pickerContainer}>
-            {pickerVar}
+            <Picker
+              numberOfLines={1}
+              style={styles.picker}
+              height={200}
+              selectedValue={selectedSubject}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedSubject(itemValue)
+                
+              }>
+              {items}
+            </Picker>
           </View>
       )
     }
