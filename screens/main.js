@@ -86,7 +86,7 @@ export default function Main({ navigation, route }) {
         console.log('test')
       }
       setitems(newItems)
-  }
+  } 
 
   useEffect(() => {
     async function run() {

@@ -103,9 +103,9 @@ if (id !== 0) {
     };
     try {
         const getEventId = async () => {
-            const type2 = 'reminder'
+            const type2 = '!!!!!reminder'
             if (type2 == 'reminder'){
-                console.log("22222222222222")
+                
                 return await Calendar.createReminderAsync('4F8379C5-FA0E-44C8-ADAB-9985FF7137A2', reminderDetails);
             } else {
                 return await Calendar.createEventAsync(id, eventDetails);
