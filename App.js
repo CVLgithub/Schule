@@ -95,7 +95,7 @@ export default function App() {
     return (
       // Display a loading indicator or nothing while loading
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="small" color="#0000ff" />
       </View>
     );
   }
