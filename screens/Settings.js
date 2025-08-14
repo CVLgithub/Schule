@@ -82,6 +82,7 @@ export default function SettingsView({ navigation, route}) {
         onChangeText={onChangeText}
         value={text}
         placeholder="Fach hinzufügen"
+        color={ColourStyle.text.color}
       />
       <Picker
         selectedValue={selectedSubject}
