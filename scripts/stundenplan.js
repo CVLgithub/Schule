@@ -149,7 +149,7 @@ export async function getData(key, callback) {
             return 'error'
         }
     } catch (error) {
-        console.log('Error retrieving data: ', error);
+        console.log('Error retrieving data 2: ', error);
         return 'error'
     }
 };

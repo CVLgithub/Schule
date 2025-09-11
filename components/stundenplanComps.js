@@ -70,7 +70,7 @@ const Lesson = ({fach, day, nav, ColourStyle}) => {
 export const Times = ({ColourStyle}) => {
     const styles2 = CreateStyles(ColourStyle)
     const items = []
-    for (i of s.TimeList){
+    for (const i of s.TimeList){
         items.push(
             <View style={styles2.lesson} key={i}>
                 <Text style={styles2.lessonTxt}>{i}</Text>

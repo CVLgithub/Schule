@@ -24,7 +24,7 @@ export default function SettingsView({ navigation, route}) {
   useEffect(
     () => {
       const newItems = []
-      for (i in s.SubjectList){
+      for (const i in s.SubjectList){
         const item = s.SubjectList[i]
         newItems.push(
           <Picker.Item label={item} value={item} color={ColourStyle.text.color} key={i}/>
@@ -78,7 +78,7 @@ export default function SettingsView({ navigation, route}) {
     <View flex={1} backgroundColor={ColourStyle.background.backgroundColor}>
       <Button title='Hinzufügen' onPress={add}/>
       <TextInput
-        style={styles.input}
+        style={stylesSe.input}
         onChangeText={onChangeText}
         value={text}
         placeholder="Fach hinzufügen"
@@ -99,7 +99,7 @@ export default function SettingsView({ navigation, route}) {
   );
 }
 
-const styles = StyleSheet.create({
+const stylesSe = StyleSheet.create({
   input: {
     height: 40,
     margin: 12,

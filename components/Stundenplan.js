@@ -21,8 +21,8 @@ export default function StundenPlan({navigation, reload, ColourStyle}){
         console.log('Generating columns'); // Debugging line
         const newColumns = [];
         newColumns.push(<Times key={'-1'} ColourStyle={ColourStyle}/>);
-        for (i in s.stundenPlan) {
-            console.log('i', i)
+        for (let i in s.stundenPlan) {
+            console.log('i generating columns', i)
         const day = i.slice(0, 2);
         if (day === 'so' || day === 'sa') {
             break;
