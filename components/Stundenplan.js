@@ -14,20 +14,28 @@ const screenHeight = Dimensions.get('window').height; //full height
 export default function StundenPlan({navigation, reload, ColourStyle}){
     const woche = s.woche
     const [columns, setColumns] = useState([]);
-    console.log('generate')
-    console.log(s.stundenPlan)
+    console.log('generate woche: ', woche)
+    //console.log(s.stundenPlan)
 
     const generateColumns = () => {
         console.log('Generating columns'); // Debugging line
         const newColumns = [];
         newColumns.push(<Times key={'-1'} ColourStyle={ColourStyle}/>);
         for (let i in s.stundenPlan) {
-            console.log('i generating columns', i)
-        const day = i.slice(0, 2);
-        if (day === 'so' || day === 'sa') {
-            break;
-        }
-        newColumns.push(<Tag key={i} day={day} woche={woche} nav={navigation} ColourStyle={ColourStyle} />);
+            const day = i.slice(0, 2);
+            if (day === 'so' || day === 'sa') {
+                break;
+            }
+            newColumns.push(
+                <Tag
+                    key={`${i}-${woche}`}
+                    day={day}
+                    woche={woche}
+                    reload={reload}
+                    nav={navigation}
+                    ColourStyle={ColourStyle}
+                />
+            );
         }
         setColumns(newColumns);
     };

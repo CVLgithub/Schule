@@ -8,6 +8,7 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 
 export default function Week({nav, ColourStyle}){
+    let localwoche = s.woche;
     const styles = StyleSheet.create({
         container: {
             //flex: 1
@@ -22,11 +23,11 @@ export default function Week({nav, ColourStyle}){
             <Pressable
                 hitSlop={50}
                 onPress={() => {
-                    s.toggleWoche();
+                    localwoche = s.toggleWoche();
                     nav.navigate('main', { refresh: Math.random() });
                 }}
             >
-                <Text style={styles.text}> {s.woche} Woche</Text>
+                <Text style={styles.text}> {localwoche} Woche</Text>
             </Pressable>
             
         </View>

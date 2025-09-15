@@ -20,27 +20,23 @@ const AddLesson = ({day, nav, ColourStyle}) => {
     )
 }
 
-export const Tag = ({day, woche, nav, ColourStyle}) => {
+export const Tag = ({day, woche, nav, ColourStyle, reload}) => {
     const styles2 = CreateStyles(ColourStyle)
     const DayFull = s.weekdayfull[day]
-    const [lessons, setlessons] = useState([])
+    const [lessons, setLessons] = useState([])
     useEffect(() => {
+    try {
+      const data = s.stundenPlan[`${day}${woche}`] ?? [];
+      const newLessons = data.map((item, i) => (
+        <Lesson key={i} fach={item} day={`${day}${woche}`} nav={nav} ColourStyle={ColourStyle} />
+      ));
+      setLessons(newLessons);
+    } catch (error) {
+      console.log('error', error);
+    }
+    }, [day, woche, reload, ColourStyle]);
 
-        try {
-            const newLessons = []
-            s.stundenPlan[day + woche].forEach(
-            (item, i) => {
-                newLessons.push(<Lesson key = {i} fach={item} day = {day+woche} nav = {nav} ColourStyle={ColourStyle}/>)
-            }
-        )
-        setlessons(newLessons)
-        } catch (error) {
-            console.log('error')
-            console.log(s.stundenPlan)
-        }
-
-        },[]
-    )
+    
     return (
         <View style={styles2.coloumn}>
 

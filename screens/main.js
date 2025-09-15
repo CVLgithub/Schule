@@ -12,7 +12,7 @@ import SettingsIcon from '../components/settings';
 async function storeData(key, data) {
   try {
     await AsyncStorage.setItem(String(key), String(data));
-    console.log('Data stored successfully', key, data);
+    console.log('Data stored successfully') //, key, data);
   } catch (error) {
     console.log('Error storing data: ', error);
   }
@@ -40,7 +40,7 @@ async function getData(key, callback) {
 
 function save(){
   storeData('stundenPlan', JSON.stringify(plan.stundenPlan))
-  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n', plan.stundenPlan)
+  //console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n', plan.stundenPlan)
 }
 
 async function getStoredStunendplan(){
@@ -57,10 +57,8 @@ async function getStoredStunendplan(){
 
 export default function Main({ navigation, route }) {
   const { ColourStyle } = route.params;
-  console.log('FROM MAIN 22222:', ColourStyle)
   const styles = CreateStyles(ColourStyle)
 
-  console.log('FROM MAIN 3333333:', styles.container)
   
   
 
@@ -128,7 +126,7 @@ export default function Main({ navigation, route }) {
     
 
     if (reload == 0){return}
-    console.log('EFFECT 2 ______________________________')
+    console.log('EFFECT 2 ---- (reload) ----')
     save()
     loadStundenPlan();
     
@@ -138,9 +136,8 @@ export default function Main({ navigation, route }) {
 
   useEffect(() => {
     if (route.params?.refresh) {
-      console.log('EFFECT 3 ______________________________')
-      console.log('route params refresh');
-      setStundenPlan(<Text>Laden...</Text>);  // Zurücksetzen auf den Ladezustand
+      console.log('EFFECT 3 ----- (route params refresh) ------')
+      //setStundenPlan(<Text>Laden...</Text>);  // Zurücksetzen auf den Ladezustand
       setReload(Math.random());
       
     }
@@ -261,7 +258,7 @@ export default function Main({ navigation, route }) {
   }
 
   const Header = () => {
-    console.log('Generating columns'); // Debugging line
+    console.log('Generating Header columns'); // Debugging line
     const newColumns = [];
     newColumns.push(
       <View style = {styles.headerItemTime} key={'time'}>
@@ -269,7 +266,7 @@ export default function Main({ navigation, route }) {
       </View>
     );
     for (let i in plan.stundenPlan) {
-      console.log('i', i)
+      //console.log('Header', i.slice(0, 2))
       const day = i.slice(0, 2);
       if (day === 'so' || day === 'sa') {
           break;
