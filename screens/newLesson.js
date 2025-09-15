@@ -22,7 +22,7 @@ export default function AddView({ navigation, route}) {
   useEffect(
     () => {
       const newItems = []
-      for (i in s.SubjectList){
+      for (const i in s.SubjectList){
         const item = s.SubjectList[i]
         if(i == 0){
           setSelectedSubject(item)

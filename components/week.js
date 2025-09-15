@@ -19,8 +19,14 @@ export default function Week({nav, ColourStyle}){
     })
     return (
         <View style = {styles.container} >
-            <Pressable hitSlop={50} onPress={() => {if(s.woche == 'A'){s.woche = 'B'}else{s.woche = 'A'}nav.navigate('main', { refresh: Math.random() });}}>
-                <Text style={styles.text}> Woche</Text>
+            <Pressable
+                hitSlop={50}
+                onPress={() => {
+                    s.toggleWoche();
+                    nav.navigate('main', { refresh: Math.random() });
+                }}
+            >
+                <Text style={styles.text}> {s.woche} Woche</Text>
             </Pressable>
             
         </View>

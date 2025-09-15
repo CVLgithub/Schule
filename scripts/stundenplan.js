@@ -54,6 +54,12 @@ const getTypeOfWeek = () => {
 
 export let woche = getTypeOfWeek()
 
+export function toggleWoche() {
+    woche = woche === 'A' ? 'B' : 'A';
+    return woche;
+}
+
+
 const dayList = {
     1: 'moA',
     2: 'diA',
