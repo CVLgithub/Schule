@@ -172,15 +172,19 @@ export default function Main({ navigation, route }) {
     }
   }
 
-  const switchAnimated = useSharedValue(SwitchDicleft)
+  const switchAnimated = useSharedValue(SwitchDicRight)
 
   const handlePress = () => {
-    console.log('press')
-    if (switchAnimated.value.dimension.left == 100){
-      setSwitchState('custom')
+    console.log('switch press')
+    const t = switchAnimated.value
+    console.log(t.dimension.left)
+    if (t.dimension.left == 100){
+      console.log('t')
+      setSwitchState('customm')
       switchAnimated.value = withTiming(SwitchDicRight)
       return
     } 
+    console.log('auto')
     setSwitchState('auto')
     switchAnimated.value = withTiming(SwitchDicleft)
     
@@ -406,9 +410,10 @@ function CreateStyles(s){ return StyleSheet.create({
     width: 40
   },
   headerTxt: {
-    fontSize: 12,
+    fontSize: 10,
     alignSelf: 'center',
-    color: s.text.color
+    color: s.text.color,
+    fontWeight: 'bold'
   },
   input: {
     borderWidth: 1,

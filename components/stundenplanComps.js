@@ -13,7 +13,8 @@ const AddLesson = ({day, nav, ColourStyle}) => {
     return (
         <View style={styles2.addLesson}>
             <Pressable onPress={() => {nav.navigate('Hinzufügen', {day: day })}}>
-                <Text style={styles2.addLessonTxt}>Add lesson</Text>
+                <Text style={styles2.addLessonTxt}>ADD</Text>
+                <Text style={styles2.addLessonTxt}>LESSON</Text>
             </Pressable>
             
         </View>
@@ -86,7 +87,7 @@ function CreateStyles (s) {
     coloumn: {
         //backgroundColor: 'green',
         flexDirection: 'coloumn',
-        width: (screenWidth - 45) / 5,
+        width: (screenWidth - 65) / 5,
         borderLeftWidth: 1.5,
         borderWidth: 0,
         //paddingTop: 20
@@ -113,6 +114,8 @@ function CreateStyles (s) {
         alignSelf: 'center',
         color: s.text.color,
         fontVariant: ['tabular-nums'],
+        fontSize: 12,
+        fontWeight: 'bold'
     },
     addLesson: {
         backgroundColor: s.extra.color,
@@ -124,7 +127,9 @@ function CreateStyles (s) {
     },
     addLessonTxt: {
         alignSelf: 'center',
-        color: s.text.color
+        color: s.text.color,
+        fontSize: 12,
+        fontWeight: 'bold'
     }
     
 })

@@ -191,7 +191,7 @@ function findNextLesson(fach, d, plan){
     const day = weekday[parseInt(d.getDay())] + woche;
     console.log('heute:', day)  
 
-    for (i in dayList){
+    for (const i in dayList){
         if (dayList[i] == day){
             const startDay = parseInt(i)
             const [nextDay, dayAsletter] = recursion(fach,plan, startDay + 1)
