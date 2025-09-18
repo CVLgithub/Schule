@@ -5,11 +5,11 @@ import {Picker} from '@react-native-picker/picker';
 import * as s from '../scripts/stundenplan'
 
 export default function EditView({ navigation, route}) {
-  const { lesson, day, ColourStyle  } = route.params;
+  const { lesson, day, ColourStyle, index  } = route.params;
 
   const edit = () => {
-    const index = s.stundenPlan[day].indexOf(lesson)
-    console.log('index:',index)
+    //const index = s.stundenPlan[day].indexOf(lesson)
+    console.log('edit index: ',index)
 
     if (index !== -1) {
         s.stundenPlan[day][index] = selectedSubject;
@@ -22,8 +22,8 @@ export default function EditView({ navigation, route}) {
   }
 
   const deleteLesson = () => {
-    console.log(s.stundenPlan[day])
-    const index = s.stundenPlan[day].indexOf(lesson)
+    //console.log(s.stundenPlan[day])
+    //const index = s.stundenPlan[day].indexOf(lesson)
     console.log(index);
     console.log(s.stundenPlan[day][index])
     s.stundenPlan[day].splice(index, 1);
@@ -37,6 +37,7 @@ export default function EditView({ navigation, route}) {
 
   useEffect(
     () => {
+      console.log('FROM EDIT: ', index)
       const newItems = []
       for (const i in s.SubjectList){
         const item = s.SubjectList[i]
@@ -46,7 +47,7 @@ export default function EditView({ navigation, route}) {
         newItems.push(
           <Picker.Item label={item} value={item} color={ColourStyle.text.color} key={i}/>
         )
-      console.log(i)
+      //console.log(i)
       }
       setitems(newItems)}
     ,[]

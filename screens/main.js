@@ -358,9 +358,9 @@ function CreateStyles(s){ return StyleSheet.create({
     borderBottomWidth: 1.5,
     flex: 1,
     maxHeight: 420,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     paddingBottom:10,
-    width: 300
+    //width: 300
   },
   pickerItem: {
     height: 10,
