@@ -311,6 +311,10 @@ export default function Main({ navigation, route }) {
         textAlign='center'
         color={ColourStyle.text.color}
         returnKeyType={'done'}
+        autoComplete='off'
+        textContentType='none'
+        spellCheck={false}
+        autoCorrect={false}
       />
       <Switch/>
       <SubjectSelect/>
