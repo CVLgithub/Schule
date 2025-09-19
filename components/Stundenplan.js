@@ -12,10 +12,12 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 
 export default function StundenPlan({navigation, reload, ColourStyle}){
+    const stundenplan = s.stundenPlan
     const woche = s.woche;
-  const columns = React.useMemo(() => {
+    const columns = React.useMemo(() => {
     const arr = [<Times key="times" ColourStyle={ColourStyle} />];
-    for (const i in s.stundenPlan) {
+    console.log('Generating Stundenplan : ', stundenplan)
+    for (const i in stundenplan) {
       const day = i.slice(0, 2);
       if (day === 'so' || day === 'sa') break;
       arr.push(

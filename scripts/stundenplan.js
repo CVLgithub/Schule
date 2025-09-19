@@ -81,18 +81,18 @@ const dayList = {
 
 //stundenplan sollte lokal gespeichert werden
 export let  stundenPlan = {
-    moA: ['deutsch','englisch','mathe', 'sport'],
-    diA: ['geschi','mathe'],
-    miA: ['sport','deutsch','powi'],
-    doA: ['info','physik','religion'],
-    frA: ['englisch','powi','geschi'],
+    moA: [-1],
+    diA: [],
+    miA: [],
+    doA: [],
+    frA: [],
     saA: [],
     soA: [],
-    moB: ['deutsch','geschi','mathe'],
-    diB: ['englisch','mathe'],
-    miB: ['sport','deutsch','info'],
-    doB: ['powi','physik','religion'],
-    frB: ['englisch','powi','geschi'],
+    moB: [],
+    diB: [],
+    miB: [],
+    doB: [],
+    frB: [],
     saB: [],
     soB: [],
 }

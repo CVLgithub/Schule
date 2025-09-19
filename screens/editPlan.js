@@ -1,11 +1,32 @@
 import { Dimensions, StyleSheet, View, Text, Button, Platform,TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
 
 export default function EditView({ navigation, route}) {
   const { lesson, day, ColourStyle, index  } = route.params;
+
+  async function storeData(key, data) {
+    try {
+     await AsyncStorage.setItem(String(key), String(data));
+     console.log('Data stored successfully') //, key, data);
+    } catch (error) {
+      console.log('Error storing data: ', error);
+    }
+  };
+
+  
+  function save(plan){
+    if(plan['moA'] == -1){
+        return
+    }
+    console.log('SAVE from edit: ', plan)
+    storeData('stundenPlan', JSON.stringify(plan))
+    //console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n', plan.stundenPlan)
+  } 
+
 
   const edit = () => {
     //const index = s.stundenPlan[day].indexOf(lesson)
@@ -15,8 +36,8 @@ export default function EditView({ navigation, route}) {
         s.stundenPlan[day][index] = selectedSubject;
         console.log('switch')
     }
-    console.log(s.stundenPlan[day])
-
+    console.log('updated ',day, 'to: ', s.stundenPlan[day])
+    save(s.stundenPlan)
     navigation.navigate('main', { refresh: Math.random() });
     
   }

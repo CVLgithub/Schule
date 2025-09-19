@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet, View, Text, Button, Platform,TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as s from '../scripts/stundenplan'
 
@@ -10,11 +11,31 @@ export default function AddView({ navigation, route}) {
   const [items, setitems] = useState()
   const { day  } = route.params;
 
+  async function storeData(key, data) {
+    try {
+     await AsyncStorage.setItem(String(key), String(data));
+     console.log('Data stored successfully') //, key, data);
+    } catch (error) {
+      console.log('Error storing data: ', error);
+    }
+  };
+
+  
+  function save(plan){
+    if(plan['moA'] == -1){
+        return
+    }
+    console.log('SAVE from edit: ', plan)
+    storeData('stundenPlan', JSON.stringify(plan))
+    //console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n', plan.stundenPlan)
+  } 
+
+
   const add = () => {
     s.stundenPlan[day].push(selectedSubject)
-    console.log('add')
+    console.log('add', day, selectedSubject)
     console.log(s.stundenPlan[day])
-
+    save(s.stundenPlan)
     navigation.navigate('main', { refresh: Math.random() });
     
   }

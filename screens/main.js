@@ -39,6 +39,10 @@ async function getData(key, callback) {
 
 
 function save(){
+  if(plan.stundenPlan['moA'] == -1){
+    return
+  }
+  console.log('SAVE: ', plan.stundenPlan)
   storeData('stundenPlan', JSON.stringify(plan.stundenPlan))
   //console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n', plan.stundenPlan)
 }
@@ -82,7 +86,7 @@ export default function Main({ navigation, route }) {
     console.log('conf Picker')
     const newItems = []
     console.log(plan.SubjectList);
-      for (b in plan.SubjectList){
+      for (const b in plan.SubjectList){
         const item = plan.SubjectList[b]
         if(b == 0){
           setSelectedSubject(item)
@@ -108,6 +112,7 @@ export default function Main({ navigation, route }) {
       //if(pickerVar == 10){
       //  confPicker();
       //}
+      confPicker()
       console.log('testing');
       loadStundenPlan()
       
@@ -148,10 +153,8 @@ export default function Main({ navigation, route }) {
 
 
   const [SwitchState, setSwitchState] = useState('auto')
-  const Switchwidths = [100, 60]
-  const switchColors = ['green', 'red']
 
-  const SwitchDicleft = {
+  const SwitchDicLeft = {
     dimension: {
       left: 100,
       right: 60
@@ -172,21 +175,20 @@ export default function Main({ navigation, route }) {
     }
   }
 
-  const switchAnimated = useSharedValue(SwitchDicRight)
+  const switchAnimated = useSharedValue(SwitchDicLeft)
 
   const handlePress = () => {
     console.log('switch press')
     const t = switchAnimated.value
     console.log(t.dimension.left)
     if (t.dimension.left == 100){
-      console.log('t')
-      setSwitchState('customm')
+      setSwitchState('custom')
       switchAnimated.value = withTiming(SwitchDicRight)
       return
     } 
     console.log('auto')
     setSwitchState('auto')
-    switchAnimated.value = withTiming(SwitchDicleft)
+    switchAnimated.value = withTiming(SwitchDicLeft)
     
   };
   const animatedleft = useAnimatedStyle(() => {
@@ -238,7 +240,11 @@ export default function Main({ navigation, route }) {
   const SubjectSelect = () => {
 
     if (SwitchState == 'custom'){
-      //console.log(pickerVar)
+      console.log('SWITCH CUSTOM')
+     if(items == 0){
+      confPicker()
+      return
+    }
       return (
           <View style={styles.pickerContainer}>
             <Picker
@@ -304,6 +310,7 @@ export default function Main({ navigation, route }) {
         placeholderTextColor={ColourStyle.text.color2}
         textAlign='center'
         color={ColourStyle.text.color}
+        returnKeyType={'done'}
       />
       <Switch/>
       <SubjectSelect/>

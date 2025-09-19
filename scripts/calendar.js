@@ -21,7 +21,7 @@ export async function SetCalId(){
                     resolve(CalId)
                     return
                 }
-                console.log('next');
+                //console.log('next');
             }
             console.log("create new")
             createCalendar('Schulplanner')
