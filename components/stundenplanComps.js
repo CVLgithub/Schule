@@ -14,34 +14,31 @@ const AddLesson = ({day, nav, ColourStyle}) => {
     return (
         <View style={styles2.addLesson}>
             <Pressable onPress={() => {nav.navigate('Hinzufügen', {day: day })}}>
-                <Text style={styles2.addLessonTxt}>Add lesson</Text>
+                <Text style={styles2.addLessonTxt}>ADD</Text>
+                <Text style={styles2.addLessonTxt}>LESSON</Text>
             </Pressable>
             
         </View>
     )
 }
 
-export const Tag = ({day, woche, nav, ColourStyle}) => {
+export const Tag = ({day, woche, nav, ColourStyle, reload}) => {
     const styles2 = CreateStyles(ColourStyle)
     const DayFull = s.weekdayfull[day]
-    const [lessons, setlessons] = useState([])
+    const [lessons, setLessons] = useState([])
     useEffect(() => {
+    try {
+      const data = s.stundenPlan[`${day}${woche}`] ?? [];
+      const newLessons = data.map((item, i) => (
+        <Lesson key={i} fach={item} day={`${day}${woche}`} nav={nav} ColourStyle={ColourStyle} index={i}/>
+      ));
+      setLessons(newLessons);
+    } catch (error) {
+      console.log('error', error);
+    }
+    }, [day, woche, reload, ColourStyle]);
 
-        try {
-            const newLessons = []
-            s.stundenPlan[day + woche].forEach(
-            (item, i) => {
-                newLessons.push(<Lesson key = {i} fach={item} day = {day+woche} nav = {nav} ColourStyle={ColourStyle}/>)
-            }
-        )
-        setlessons(newLessons)
-        } catch (error) {
-            console.log('error')
-            console.log(s.stundenPlan)
-        }
-
-        },[]
-    )
+    
     return (
         <View style={styles2.coloumn}>
 
@@ -55,7 +52,7 @@ export const Tag = ({day, woche, nav, ColourStyle}) => {
     )
 }
 
-const Lesson = ({fach, day, nav, ColourStyle}) => {
+const Lesson = ({fach, day, nav, ColourStyle, index}) => {
     const styles2 = CreateStyles(ColourStyle)
     const shadow = day == 'moB' ? styles2.lesson : styles2.lessonNew;
     return ( 
@@ -76,6 +73,9 @@ const Lesson = ({fach, day, nav, ColourStyle}) => {
                     <Text style={styles2.lessonTxt}>{fach}</Text>
                 </View>
             </LinearGradient>    
+            <View style={styles2.lesson}>
+                <Text style={styles2.lessonTxt}>{fach}</Text>
+            </View>
         </Pressable>
             
     )
@@ -85,7 +85,7 @@ const Lesson = ({fach, day, nav, ColourStyle}) => {
 export const Times = ({ColourStyle}) => {
     const styles2 = CreateStyles(ColourStyle)
     const items = []
-    for (i of s.TimeList){
+    for (const i of s.TimeList){
         items.push(
             <View style={styles2.lesson} key={i}>
                 <Text style={styles2.lessonTxt}>{i}</Text>
@@ -105,7 +105,7 @@ function CreateStyles (s) {
     coloumn: {
         //backgroundColor: 'green',
         flexDirection: 'coloumn',
-        width: (screenWidth - 45) / 5,
+        width: (screenWidth - 65) / 5,
         borderLeftWidth: 1.5,
         borderWidth: 0,
         //paddingTop: 20
@@ -150,6 +150,7 @@ function CreateStyles (s) {
         shadowOffset: {width: -2, height: 4},
         shadowOpacity: 0.2,
         shadowRadius: 3,
+        fontWeight: 'bold'
     },
     addLesson: {
         backgroundColor: s.extra.color,
@@ -161,7 +162,9 @@ function CreateStyles (s) {
     },
     addLessonTxt: {
         alignSelf: 'center',
-        color: s.text.color
+        color: s.text.color,
+        fontSize: 12,
+        fontWeight: 'bold'
     }
     
 })

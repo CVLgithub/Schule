@@ -1,5 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { Appearance, Dimensions, StyleSheet, SafeAreaView, View, ActivityIndicator } from 'react-native';
+import { Appearance, Dimensions, StyleSheet, View, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { useColorScheme } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -106,7 +108,7 @@ export default function App() {
 
   return (
     <>
-      <SafeAreaView edges={['top']} style={[styles.safearea, {backgroundColor: ColourStyle.background.backgroundColor}]} />
+      <SafeAreaView edges={['top']} style={[stylesb.safearea, {backgroundColor: ColourStyle.background.backgroundColor}]} />
       <SafeAreaView
         edges={['bottom']}
         style={[
@@ -118,8 +120,8 @@ export default function App() {
           ColourStyle.background.backgroundColor,
         ]}
       >
-        <StatusBar style={styles.status} />
-        <NavigationContainer style={styles.nav}>
+        <StatusBar style={stylesb.status} />
+        <NavigationContainer style={stylesb.nav}>
           <Stack.Navigator
             initialRouteName="main"
             screenOptions={{
@@ -160,7 +162,7 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
+const stylesb = StyleSheet.create({
   safearea: {
     flex: 0,
     // height: screenHeight,

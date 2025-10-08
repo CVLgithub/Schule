@@ -54,6 +54,12 @@ const getTypeOfWeek = () => {
 
 export let woche = getTypeOfWeek()
 
+export function toggleWoche() {
+    woche = woche === 'A' ? 'B' : 'A';
+    return woche;
+}
+
+
 const dayList = {
     1: 'moA',
     2: 'diA',
@@ -75,18 +81,18 @@ const dayList = {
 
 //stundenplan sollte lokal gespeichert werden
 export let  stundenPlan = {
-    moA: ['deutsch','englisch','mathe', 'sport'],
-    diA: ['geschi','mathe'],
-    miA: ['sport','deutsch','powi'],
-    doA: ['info','physik','religion'],
-    frA: ['englisch','powi','geschi'],
+    moA: [-1],
+    diA: [],
+    miA: [],
+    doA: [],
+    frA: [],
     saA: [],
     soA: [],
-    moB: ['deutsch','geschi','mathe'],
-    diB: ['englisch','mathe'],
-    miB: ['sport','deutsch','info'],
-    doB: ['powi','physik','religion'],
-    frB: ['englisch','powi','geschi'],
+    moB: [],
+    diB: [],
+    miB: [],
+    doB: [],
+    frB: [],
     saB: [],
     soB: [],
 }
@@ -149,7 +155,7 @@ export async function getData(key, callback) {
             return 'error'
         }
     } catch (error) {
-        console.log('Error retrieving data: ', error);
+        console.log('Error retrieving data 2: ', error);
         return 'error'
     }
 };
@@ -185,7 +191,7 @@ function findNextLesson(fach, d, plan){
     const day = weekday[parseInt(d.getDay())] + woche;
     console.log('heute:', day)  
 
-    for (i in dayList){
+    for (const i in dayList){
         if (dayList[i] == day){
             const startDay = parseInt(i)
             const [nextDay, dayAsletter] = recursion(fach,plan, startDay + 1)

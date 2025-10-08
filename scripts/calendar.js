@@ -4,10 +4,12 @@ import { Platform } from 'react-native';
 
 export async function SetCalId(){
     return new  Promise(async (resolve) => {
+        console.log('SetCalid called');
         const { status } = await Calendar.requestCalendarPermissionsAsync();
         if (status === 'granted') { 
+            console.log('granted');
             const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-            for (i in calendars){
+            for (const i in calendars){
                 const cal = calendars[i]
                 if (cal["title"] == 'Schulplanner'){
                     console.log("found1")
@@ -15,14 +17,17 @@ export async function SetCalId(){
                     console.log('id:', CalId)
                     //resolve(id) 
                     //const ReminderId = await SetReminderId()
+                    console.log('resolve');
                     resolve(CalId)
                     return
                 }
+                //console.log('next');
             }
             console.log("create new")
             createCalendar('Schulplanner')
            // SetReminderId()
-        }})
+        }
+    })
 }
 
 export async function SetReminderId(){

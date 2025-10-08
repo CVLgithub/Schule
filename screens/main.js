@@ -12,7 +12,7 @@ import SettingsIcon from '../components/settings';
 async function storeData(key, data) {
   try {
     await AsyncStorage.setItem(String(key), String(data));
-    console.log('Data stored successfully', key, data);
+    console.log('Data stored successfully') //, key, data);
   } catch (error) {
     console.log('Error storing data: ', error);
   }
@@ -32,56 +32,67 @@ async function getData(key, callback) {
       return 'error'
     }
   } catch (error) {
-    console.log('Error retrieving data: ', error);
+    console.log('Error retrieving data1: ', error);
     return 'error'
   }
 };
 
 
 function save(){
+  if(plan.stundenPlan['moA'] == -1){
+    return
+  }
+  console.log('SAVE: ', plan.stundenPlan)
   storeData('stundenPlan', JSON.stringify(plan.stundenPlan))
-  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n', plan.stundenPlan)
+  //console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \n', plan.stundenPlan)
 }
 
 async function getStoredStunendplan(){
   
-  await getData('stundenPlan', (x) => { plan.stundenPlan = x; console.log('-------------------------------------------------------------------- \n', plan.stundenPlan)})
-  console.log("2")
+  await getData('stundenPlan', (x) => { // Änderungen an den Inhalten, nicht das Objekt überschreiben
+  Object.keys(plan.stundenPlan).forEach(day => {
+    plan.stundenPlan[day] = x[day];
+  });
+  console.log('-------------------------------------------------------------------- \n', plan.stundenPlan)})
+  console.log("3")
 }
 
 
 
 export default function Main({ navigation, route }) {
   const { ColourStyle } = route.params;
-  console.log('FROM MAIN:', ColourStyle)
-  styles = CreateStyles(ColourStyle)
+  const styles = CreateStyles(ColourStyle)
 
-  console.log('FROM MAIN:', styles.container)
   
   
 
   const [id, setId] = useState(0);
   const [reload, setReload] = useState(0);
 
-  const [stundenPlanItem, setStundenPlan] = useState(<Text>Laden...</Text>);
+  const [stundenPlanItem, setStundenPlan] = useState(<Text style={{borderWidth: 1,
+    borderRadius: 8,
+    backgroundColor: 'green', 
+    margin: 25}}>Laden...</Text>);
   const [selectedSubject, setSelectedSubject] = useState();
   const [items, setitems] = useState(0)
   const [pickerVar, setPicker] = useState(0)
 
   const loadStundenPlan = () => {
+    console.log('Stundenplan wird geupdated');
     setStundenPlan(<StundenPlan navigation={navigation} reload={Math.random()} ColourStyle={ColourStyle} />);
   };
 
   const confPicker = () => {
     console.log('conf Picker')
     const newItems = []
-      for (i in plan.SubjectList){
-        const item = plan.SubjectList[i]
-        if(i == 0){
+    console.log(plan.SubjectList);
+      for (const b in plan.SubjectList){
+        const item = plan.SubjectList[b]
+        if(b == 0){
           setSelectedSubject(item)
         }
         newItems.push(
-          <Picker.Item styles={styles.pickerItem} label={item} value={item} color={ColourStyle.text.color} key={i}/>
+          <Picker.Item styles={styles.pickerItem} label={item} value={item} color={ColourStyle.text.color} key={b}/>
         )
         console.log('test')
       }
@@ -98,9 +109,11 @@ export default function Main({ navigation, route }) {
       console.log('state');
       const newId = await cal.SetCalId();
       setId(newId);
-      if(pickerVar == 0){
-        confPicker()
-      }
+      //if(pickerVar == 10){
+      //  confPicker();
+      //}
+      confPicker()
+      console.log('testing');
       loadStundenPlan()
       
     }
@@ -118,7 +131,7 @@ export default function Main({ navigation, route }) {
     
 
     if (reload == 0){return}
-    console.log('EFFECT 2 ______________________________')
+    console.log('EFFECT 2 ---- (reload) ----')
     save()
     loadStundenPlan();
     
@@ -128,9 +141,8 @@ export default function Main({ navigation, route }) {
 
   useEffect(() => {
     if (route.params?.refresh) {
-      console.log('EFFECT 3 ______________________________')
-      console.log('route params refresh');
-      setStundenPlan(<Text>Laden...</Text>);  // Zurücksetzen auf den Ladezustand
+      console.log('EFFECT 3 ----- (route params refresh) ------')
+      //setStundenPlan(<Text>Laden...</Text>);  // Zurücksetzen auf den Ladezustand
       setReload(Math.random());
       
     }
@@ -141,10 +153,8 @@ export default function Main({ navigation, route }) {
 
 
   const [SwitchState, setSwitchState] = useState('auto')
-  const Switchwidths = [100, 60]
-  const switchColors = ['green', 'red']
 
-  const SwitchDicleft = {
+  const SwitchDicLeft = {
     dimension: {
       left: 100,
       right: 60
@@ -165,17 +175,20 @@ export default function Main({ navigation, route }) {
     }
   }
 
-  const switchAnimated = useSharedValue(SwitchDicleft)
+  const switchAnimated = useSharedValue(SwitchDicLeft)
 
   const handlePress = () => {
-    console.log('press')
-    if (switchAnimated.value.dimension.left == 100){
+    console.log('switch press')
+    const t = switchAnimated.value
+    console.log(t.dimension.left)
+    if (t.dimension.left == 100){
       setSwitchState('custom')
       switchAnimated.value = withTiming(SwitchDicRight)
       return
     } 
+    console.log('auto')
     setSwitchState('auto')
-    switchAnimated.value = withTiming(SwitchDicleft)
+    switchAnimated.value = withTiming(SwitchDicLeft)
     
   };
   const animatedleft = useAnimatedStyle(() => {
@@ -227,7 +240,11 @@ export default function Main({ navigation, route }) {
   const SubjectSelect = () => {
 
     if (SwitchState == 'custom'){
-      //console.log(pickerVar)
+      console.log('SWITCH CUSTOM')
+     if(items == 0){
+      confPicker()
+      return
+    }
       return (
           <View style={styles.pickerContainer}>
             <Picker
@@ -251,15 +268,15 @@ export default function Main({ navigation, route }) {
   }
 
   const Header = () => {
-    console.log('Generating columns'); // Debugging line
+    console.log('Generating Header columns'); // Debugging line
     const newColumns = [];
     newColumns.push(
       <View style = {styles.headerItemTime} key={'time'}>
         <Text style = {styles.headerTxt}>Zeit</Text>
       </View>
     );
-    for (i in plan.stundenPlan) {
-      console.log('i', i)
+    for (let i in plan.stundenPlan) {
+      //console.log('Header', i.slice(0, 2))
       const day = i.slice(0, 2);
       if (day === 'so' || day === 'sa') {
           break;
@@ -293,6 +310,11 @@ export default function Main({ navigation, route }) {
         placeholderTextColor={ColourStyle.text.color2}
         textAlign='center'
         color={ColourStyle.text.color}
+        returnKeyType={'done'}
+        autoComplete='off'
+        textContentType='none'
+        spellCheck={false}
+        autoCorrect={false}
       />
       <Switch/>
       <SubjectSelect/>
@@ -306,11 +328,11 @@ export default function Main({ navigation, route }) {
         }
       }} />
       </View>
-      
       <ScrollView ref={scrollRef} style={styles.scroll} bounces={false} stickyHeaderIndices={[0]}>
         <Header/>
         {stundenPlanItem}
       </ScrollView>
+      
       
     </View>
   );
@@ -351,8 +373,9 @@ function CreateStyles(s){ return StyleSheet.create({
     borderBottomWidth: 1.5,
     flex: 1,
     maxHeight: 420,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     paddingBottom:10,
+    //width: 300
   },
   pickerItem: {
     height: 10,
@@ -398,9 +421,10 @@ function CreateStyles(s){ return StyleSheet.create({
     width: 40
   },
   headerTxt: {
-    fontSize: 12,
+    fontSize: 10,
     alignSelf: 'center',
-    color: s.text.color
+    color: s.text.color,
+    fontWeight: 'bold'
   },
   input: {
     borderWidth: 1,

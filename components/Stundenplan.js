@@ -12,30 +12,26 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 
 export default function StundenPlan({navigation, reload, ColourStyle}){
-    const woche = s.woche
-    const [columns, setColumns] = useState([]);
-    console.log('generate')
-    console.log(s.stundenPlan)
-
-    const generateColumns = () => {
-        console.log('Generating columns'); // Debugging line
-        const newColumns = [];
-        newColumns.push(<Times key={'-1'} ColourStyle={ColourStyle}/>);
-        for (i in s.stundenPlan) {
-            console.log('i', i)
-        const day = i.slice(0, 2);
-        if (day === 'so' || day === 'sa') {
-            break;
-        }
-        newColumns.push(<Tag key={i} day={day} woche={woche} nav={navigation} ColourStyle={ColourStyle} />);
-        }
-        setColumns(newColumns);
-    };
-
-    //neu laden
-    useEffect(() => {
-        generateColumns();
-    }, [reload]);
+    const stundenplan = s.stundenPlan
+    const woche = s.woche;
+    const columns = React.useMemo(() => {
+    const arr = [<Times key="times" ColourStyle={ColourStyle} />];
+    console.log('Generating Stundenplan : ', stundenplan)
+    for (const i in stundenplan) {
+      const day = i.slice(0, 2);
+      if (day === 'so' || day === 'sa') break;
+      arr.push(
+        <Tag
+          key={`${day}-${woche}`}
+          day={day}
+          woche={woche}
+          nav={navigation}
+          ColourStyle={ColourStyle}
+        />
+      );
+    }
+    return arr;
+  }, [woche, ColourStyle, reload]);
 
     return (
         <View style = {styles.container} >
