@@ -15,7 +15,7 @@ import Week from './components/week.js';
 import SettingsView from './screens/Settings.js';
 import { useEffect, useState } from 'react';
 
-import * as Settings from './scripts/storage.js';
+import * as Storage from './scripts/storage.js';
 
 
 const screenWidth = Dimensions.get('window').width; // full width
@@ -105,6 +105,7 @@ export default function App() {
     console.log(systemScheme, isDarkTheme, '<---')
     if(isDarkTheme == null){return}
     if (isDarkTheme) { // Check if isDarkTheme is set
+      if(Storage.Settings.alwayslight = true){return}
       setColourStyle(DarkTheme);
 
     }

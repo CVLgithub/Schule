@@ -7,6 +7,7 @@ async function storeData(key, data) {
     } catch (error) {
       console.log('Error storing data: ', error);
     }
+    console.groupEnd()
 };
 
 async function getData(key, callback) {
@@ -26,17 +27,20 @@ async function getData(key, callback) {
     }
 };
 
-export let Settings = {
-  'alwayslight': false,
+
+const defaultSettings = {
+  'alwaysLight': false,
   'startAtSameTime': true,
   'lessonColours': {
-    
   }
 }
 
+export let Settings = defaultSettings
+
 function saveSettings(){
   console.log('saving Settings')
-    storeData('Settings', JSON.stringify(Settings))
+  storeData('Settings', JSON.stringify(Settings))
+  
 }
 
 const getSettingsFromStorage = async () => {
@@ -44,10 +48,10 @@ const getSettingsFromStorage = async () => {
     console.group('Get Settings')
     console.log(x)
    
-    if (x == 'error'){
+    if (x == 'error' || !(typeof x === 'object' && !Array.isArray(x) && x !== null)){
         console.log('error retrieving Settings!!!!')
         console.groupEnd()
-        return []
+        return defaultSettings
     }
     console.groupEnd()
     return x    
@@ -55,7 +59,7 @@ const getSettingsFromStorage = async () => {
 
 const getSettings = async () => {
   console.log('retrieving Settings')
-    Settings = await getSettingsFromStorage()
+  Settings = await getSettingsFromStorage()
 }
 
 export function setSettings(dic){
@@ -63,9 +67,12 @@ export function setSettings(dic){
   console.log(dic)
   for (let key in dic) {
     console.log(key, dic[key]);
-    console.log(key, ' <- exist: ', key in dic)
+    console.log('Settings before:')
+    console.log(Settings)
+    console.log(key, ' <- exist: ', key in Settings)
     if (key in Settings){
       Settings[key] = dic[key]
+      console.log(Settings[key])
     }
   }
   saveSettings()

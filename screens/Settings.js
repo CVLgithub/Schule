@@ -13,9 +13,9 @@ export default function SettingsView({ navigation, route}) {
   const [items, setitems] = useState()
   const [text, onChangeText] = React.useState('');
   const [EvenIsA, setEvenIsA] = useState('')
-  const [AlwaysLight, setAlwaysLight] = useState(Storage.Settings.alwayslight)
+  const [AlwaysLight, setAlwaysLight] = useState(Storage.Settings.alwaysLight)
   const [StartAtSameTime, setStartAtSameTime] = useState(Storage.Settings.startAtSameTime)
-
+  console.warn('from Settings: alwaysLight: ', AlwaysLight)
   const getEvenIsA = async() => {
     const data = await s.getData('EvenWeekIsA', (x) => {return(x)})
     if (data == 'error'){return}
@@ -60,7 +60,8 @@ export default function SettingsView({ navigation, route}) {
 
   useEffect(
     () => {
-      Storage.setSettings({'startAtSameTime': StartAtSameTime, 'AlwaysLight': AlwaysLight})
+      console.warn(StartAtSameTime, AlwaysLight)
+      Storage.setSettings({'startAtSameTime': StartAtSameTime, 'alwaysLight': AlwaysLight})
     },
     [StartAtSameTime,AlwaysLight]
   )

@@ -2,6 +2,7 @@ import * as Storage from './storage.js';
 import moment from 'moment-timezone';
 import * as cal from './calendar'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Settings } from 'react-native';
 
 const weekday = ["so","mo","di","mi","do","fr","sa"];
 
@@ -354,7 +355,7 @@ function setLessonColour(Lesson, Colour){
 
 
 //--------------
-async function getAllStorageKeys(params) {
+async function getAllStorageKeys() {
     const keys = await AsyncStorage.getAllKeys();
     console.table(keys)
 }
