@@ -7,6 +7,7 @@ import * as Storage from '../scripts/storage.js';
 
 
 export default function SettingsView({ navigation, route}) {
+  console.warn('Settings View geöffnet')
   const { ColourStyle } = route.params;
   const [selectedSubject, setSelectedSubject] = useState();
   const [items, setitems] = useState()
@@ -59,8 +60,7 @@ export default function SettingsView({ navigation, route}) {
 
   useEffect(
     () => {
-      Storage.Settings.alwayslight = AlwaysLight,
-      Storage.Settings.startAtSameTime = StartAtSameTime
+      Storage.setSettings({'startAtSameTime': StartAtSameTime, 'AlwaysLight': AlwaysLight})
     },
     [StartAtSameTime,AlwaysLight]
   )

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export async function storeData(key, data) {
+async function storeData(key, data) {
     try {
       await AsyncStorage.setItem(String(key), String(data));
       console.log('Data stored successfully', key, data);
@@ -9,7 +9,7 @@ export async function storeData(key, data) {
     }
 };
 
-export async function getData(key, callback) {
+async function getData(key, callback) {
     try {
         const value = JSON.parse(await AsyncStorage.getItem(key));
         if (value !== null && value !== undefined && value !== 'undefined') {
@@ -33,7 +33,7 @@ export let Settings = {
 
 function saveSettings(){
   console.log('saving Settings')
-    storeData('Settings', JSON.stringify(lessonColours))
+    storeData('Settings', JSON.stringify(Settings))
 }
 
 const getSettingsFromStorage = async () => {
@@ -42,7 +42,7 @@ const getSettingsFromStorage = async () => {
     console.log(x)
    
     if (x == 'error'){
-        console.log('error retrieving lessonColours!!!!')
+        console.log('error retrieving Settings!!!!')
         console.groupEnd()
         return []
     }
@@ -52,7 +52,7 @@ const getSettingsFromStorage = async () => {
 
 const getSettings = async () => {
   console.log('retrieving Settings')
-    lessonColours = await getSettingsFromStorage()
+    Settings = await getSettingsFromStorage()
 }
 
 export function setSettings(dic){
