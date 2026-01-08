@@ -15,11 +15,8 @@ import Week from './components/week.js';
 import SettingsView from './screens/Settings.js';
 import { useEffect, useState } from 'react';
 
+import * as Settings from './scripts/storage.js';
 
-export let Settings = {
-  'alwayslight': false,
-  'startAtSameTime': true,
-}
 
 const screenWidth = Dimensions.get('window').width; // full width
 const screenHeight = Dimensions.get('window').height; // full height

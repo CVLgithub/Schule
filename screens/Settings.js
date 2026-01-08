@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
-import { Settings } from '../App';
+import * as Storage from '../scripts/storage.js';
 
 
 export default function SettingsView({ navigation, route}) {
@@ -12,8 +12,8 @@ export default function SettingsView({ navigation, route}) {
   const [items, setitems] = useState()
   const [text, onChangeText] = React.useState('');
   const [EvenIsA, setEvenIsA] = useState('')
-  const [AlwaysLight, setAlwaysLight] = useState(Settings.alwayslight)
-  const [StartAtSameTime, setStartAtSameTime] = useState(Settings.startAtSameTime)
+  const [AlwaysLight, setAlwaysLight] = useState(Storage.Settings.alwayslight)
+  const [StartAtSameTime, setStartAtSameTime] = useState(Storage.Settings.startAtSameTime)
 
   const getEvenIsA = async() => {
     const data = await s.getData('EvenWeekIsA', (x) => {return(x)})
@@ -59,8 +59,8 @@ export default function SettingsView({ navigation, route}) {
 
   useEffect(
     () => {
-      Settings.alwayslight = AlwaysLight,
-      Settings.startAtSameTime = StartAtSameTime
+      Storage.Settings.alwayslight = AlwaysLight,
+      Storage.Settings.startAtSameTime = StartAtSameTime
     },
     [StartAtSameTime,AlwaysLight]
   )
