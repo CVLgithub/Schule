@@ -351,10 +351,21 @@ function setLessonColour(Lesson, Colour){
     saveLessonColours()
 }
 
+
+
+//--------------
+async function getAllStorageKeys(params) {
+    const keys = await AsyncStorage.getAllKeys();
+    console.table(keys)
+}
+
+
+
 //----------------------------------------------------
 
 const init = () => {
     console.group('Starting from stundenplan.js')
+    getAllStorageKeys()
     console.log(Storage.Settings.startAtSameTime)
     console.log('getWeek')
     getTypeOfWeek()

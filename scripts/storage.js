@@ -29,6 +29,9 @@ async function getData(key, callback) {
 export let Settings = {
   'alwayslight': false,
   'startAtSameTime': true,
+  'lessonColours': {
+    
+  }
 }
 
 function saveSettings(){

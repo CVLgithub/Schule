@@ -7,7 +7,7 @@ import * as Storage from '../scripts/storage.js';
 
 
 export default function SettingsView({ navigation, route}) {
-  console.warn('Settings View geöffnet')
+  console.log('Settings View geöffnet')
   const { ColourStyle } = route.params;
   const [selectedSubject, setSelectedSubject] = useState();
   const [items, setitems] = useState()
