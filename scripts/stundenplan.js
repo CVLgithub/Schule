@@ -137,11 +137,11 @@ export async function getData(key, callback) {
     try {
         const value = JSON.parse(await AsyncStorage.getItem(key));
         if (value !== null && value !== undefined && value !== 'undefined') {
-            console.log(`return Data: ${value}`)
+            console.log(`return Data: ${value} for key ${key}`)
             callback(value)
             return value
         } else {
-            console.log('No data found');
+            console.error(`No data for key ${key}`);
             return 'error'
         }
     } catch (error) {

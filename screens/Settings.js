@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
-import * as Storage from '../scripts/storage.js';
+import {Settings} from '../scripts/storage.js';
 
 
 export default function SettingsView({ navigation, route}) {
@@ -13,13 +13,19 @@ export default function SettingsView({ navigation, route}) {
   const [items, setitems] = useState()
   const [text, onChangeText] = React.useState('');
   const [EvenIsA, setEvenIsA] = useState('')
-  const [AlwaysLight, setAlwaysLight] = useState(Storage.Settings.alwaysLight)
-  const [StartAtSameTime, setStartAtSameTime] = useState(Storage.Settings.startAtSameTime)
-  console.warn('from Settings: alwaysLight: ', AlwaysLight)
+  const [AlwaysLight, setAlwaysLight] = useState('test')
+  const [StartAtSameTime, setStartAtSameTime] = useState('test')
+  console.error('from Settings: alwaysLight: ', Settings )
   const getEvenIsA = async() => {
     const data = await s.getData('EvenWeekIsA', (x) => {return(x)})
     if (data == 'error'){return}
       setEvenIsA(data)
+  }
+
+  const getSettings = () =>{
+    /* console.warn('refreshing settings from storage with: ', Settings)
+    setAlwaysLight(Settings.alwaysLight)
+    setStartAtSameTime(Settings.startAtSameTime) */
   }
 
   useEffect(
@@ -33,6 +39,7 @@ export default function SettingsView({ navigation, route}) {
       }
       setitems(newItems)
       getEvenIsA()
+      getSettings()
     }     
     ,[route.params?.refresh]
   )
@@ -60,8 +67,9 @@ export default function SettingsView({ navigation, route}) {
 
   useEffect(
     () => {
-      console.warn(StartAtSameTime, AlwaysLight)
-      Storage.setSettings({'startAtSameTime': StartAtSameTime, 'alwaysLight': AlwaysLight})
+      if(StartAtSameTime == 'test'|| AlwaysLight == 'test'){return}
+      //console.error('saving: ', StartAtSameTime, AlwaysLight)
+      //setSettings({'startAtSameTime': StartAtSameTime, 'alwaysLight': AlwaysLight})
     },
     [StartAtSameTime,AlwaysLight]
   )

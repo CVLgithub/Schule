@@ -105,9 +105,9 @@ export default function App() {
     console.log(systemScheme, isDarkTheme, '<---')
     if(isDarkTheme == null){return}
     if (isDarkTheme) { // Check if isDarkTheme is set
-      if(Storage.Settings.alwayslight = true){return}
+      if(Storage.Settings.alwaysLight = false){
       setColourStyle(DarkTheme);
-
+      }
     }
     setLoading(false);
   }, [isDarkTheme]);

@@ -8,17 +8,19 @@ async function storeData(key, data) {
       console.log('Error storing data: ', error);
     }
     console.groupEnd()
+    getSettingsFromStorage()
 };
 
 async function getData(key, callback) {
     try {
         const value = JSON.parse(await AsyncStorage.getItem(key));
         if (value !== null && value !== undefined && value !== 'undefined') {
-            console.log(`return Data: ${value}`)
+            console.log(`return settings Data: ${value}`)
+            console.log(JSON.stringify(value))
             callback(value)
             return value
         } else {
-            console.log('No data found');
+            console.error('No data found');
             return 'error'
         }
     } catch (error) {
@@ -29,29 +31,34 @@ async function getData(key, callback) {
 
 
 const defaultSettings = {
-  'alwaysLight': false,
+  'alwaysLight': true,
   'startAtSameTime': true,
   'lessonColours': {
   }
 }
 
-export let Settings = defaultSettings
+export let Settings = {
+  'alwaysLight': true,
+  'startAtSameTime': false,
+  'lessonColours': {
+  }
+}
 
 function saveSettings(){
-  console.log('saving Settings')
+  console.error('saving Settings')
   storeData('Settings', JSON.stringify(Settings))
   
 }
 
 const getSettingsFromStorage = async () => {
-    const x = await getData('Settings', (x) => {return(x)})
+    const x = await getData('Settings', (a) => {return(a)})
     console.group('Get Settings')
-    console.log(x)
+    console.log(JSON.stringify(x))
    
     if (x == 'error' || !(typeof x === 'object' && !Array.isArray(x) && x !== null)){
-        console.log('error retrieving Settings!!!!')
+        console.error('error retrieving Settings!!!!')
         console.groupEnd()
-        return defaultSettings
+        //return defaultSettings
     }
     console.groupEnd()
     return x    
@@ -59,7 +66,8 @@ const getSettingsFromStorage = async () => {
 
 const getSettings = async () => {
   console.log('retrieving Settings')
-  Settings = await getSettingsFromStorage()
+  const c = await getSettingsFromStorage()
+  Settings = c
 }
 
 export function setSettings(dic){
@@ -76,6 +84,10 @@ export function setSettings(dic){
     }
   }
   saveSettings()
+}
+
+export function returnSettings(){
+  return Settings
 }
 
 //run on Startup
