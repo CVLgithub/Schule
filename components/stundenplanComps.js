@@ -54,25 +54,8 @@ export const Tag = ({day, woche, nav, ColourStyle, reload}) => {
 
 const Lesson = ({fach, day, nav, ColourStyle, index}) => {
     const styles2 = CreateStyles(ColourStyle)
-    const shadow = day == 'moB' ? styles2.lesson : styles2.lessonNew;
     return ( 
         <Pressable onPress={() => {console.log(day, fach); nav.navigate('Editieren', {lesson: fach, day: day, index: index })}}>
-            <LinearGradient
-            colors={['#0b6aa0', '#07456d']}
-            start={{x: 0.5, y: 0}}
-            end={{x:0.5,y:1}}
-            style={{
-                borderRadius: 8,
-                shadowColor: '#00baff',
-                shadowOffset: {width: 0, height: 3},
-                shadowOpacity: 0.4,
-                shadowRadius: 6
-            }}
-            >
-                <View style={shadow}>
-                    <Text style={styles2.lessonTxt}>{fach}</Text>
-                </View>
-            </LinearGradient>    
             <View style={styles2.lesson}>
                 <Text style={styles2.lessonTxt}>{fach}</Text>
             </View>
@@ -137,10 +120,10 @@ function CreateStyles (s) {
         margin: 1.5,
         justifyContent: 'center',
         borderRadius: 5,
-        shadowColor: '#ffffffff',
-        shadowOffset: {width: 0, height: 1},
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        //shadowColor: '#ffffffff',
+        //shadowOffset: {width: 0, height: 1},
+        //shadowOpacity: 0.2,
+        //shadowRadius: 3,
     },
     lessonTxt: {
         alignSelf: 'center',
@@ -148,10 +131,10 @@ function CreateStyles (s) {
         fontVariant: ['tabular-nums'],
         fontSize: 12,
         fontWeight: 'bold',
-        shadowColor: s.text.color,
-        shadowOffset: {width: -2, height: 4},
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        //shadowColor: s.text.color,
+        //shadowOffset: {width: -2, height: 4},
+        //shadowOpacity: 0.2,
+        //shadowRadius: 2,
         fontWeight: 'bold'
     },
     addLesson: {

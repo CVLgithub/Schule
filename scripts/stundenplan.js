@@ -3,8 +3,6 @@ import * as cal from './calendar'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Settings } from '../App';
 
-
-
 const weekday = ["so","mo","di","mi","do","fr","sa"];
 
 
@@ -15,7 +13,6 @@ export const weekdayfull ={so:"Sonntag",mo:"Montag",di:"Dienstag",mi:"Mittwoch",
 const checkWeek = async (weekNum) => {
     const EvenIsA = await getData('EvenWeekIsA', (x) => {return(x)})
     if (EvenIsA == 'error'){console.log('WEEK ERROR'); return}
-    console.log(EvenIsA, '<------ WEEK')
     if (EvenIsA && (weekNum % 2) == 0){
         console.log('WEEK UPDATE TO A')
         woche = 'A'
@@ -38,6 +35,7 @@ const checkWeek = async (weekNum) => {
     }
 }
 
+
 const getTypeOfWeek = () => {  
     const dUTC = new Date();
     const day = moment(dUTC).tz('Europe/Berlin').toDate();
@@ -46,13 +44,14 @@ const getTypeOfWeek = () => {
     checkWeek((week % 2))
     if ((week % 2) == 0){
         console.log('WEEK B')
-        return 'B'
+        woche = 'B'
     }
     console.log('WEEK A')
-    return 'A'
+    woche = 'A'
 }
 
-export let woche = getTypeOfWeek()
+//Run on Startup
+export let woche = 'A'
 
 export function toggleWoche() {
     woche = woche === 'A' ? 'B' : 'A';
@@ -110,8 +109,9 @@ export const TimeList = [
 
 const getSubjectList = async () => {
     const x = await getData('SubjectList', (x) => {return(x)})
-    console.log('subjectlist')
+    console.group('subjectlist')
     console.log(x)
+    console.groupEnd()
     if (x == 'error'){
         console.log('error !!!!')
         return []
@@ -125,7 +125,7 @@ export let SubjectList = ['Loading ...']
 const setSubjectList = async () => {
     SubjectList = await getSubjectList()
 }
-setSubjectList()
+
 
 
 export const saveSubjects = () => {
@@ -147,7 +147,7 @@ export async function getData(key, callback) {
     try {
         const value = JSON.parse(await AsyncStorage.getItem(key));
         if (value !== null && value !== undefined && value !== 'undefined') {
-            console.log(`return ${value}`)
+            console.log(`return Data: ${value}`)
             callback(value)
             return value
         } else {
@@ -329,3 +329,14 @@ function getISOWeekNumberInGermany(date) {
     const weekNumber = dateInGermany.isoWeek();
     return weekNumber;
 }
+
+
+const init = () => {
+    console.group('Starting from stundenplan.js')
+    console.log('getWeek')
+    getTypeOfWeek()
+    console.log('setSubjectList')
+    setSubjectList()
+    console.groupEnd()
+}
+init()
