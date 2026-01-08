@@ -90,6 +90,7 @@ function CreateStyles (s) {
         width: (screenWidth - 65) / 5,
         borderLeftWidth: 1.5,
         borderWidth: 0,
+        borderColor: 'transparent'
         //paddingTop: 20
         
     },
@@ -99,6 +100,7 @@ function CreateStyles (s) {
         width: 40,
         borderLeftWidth: 1.5,
         borderWidth: 0,
+        borderColor: 'transparent'
         //paddingTop: 20
         
     },

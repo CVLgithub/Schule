@@ -24,7 +24,7 @@ export let Settings = {
 const screenWidth = Dimensions.get('window').width; // full width
 const screenHeight = Dimensions.get('window').height; // full height
 
-const DarkTheme = StyleSheet.create({
+/* const DarkTheme = StyleSheet.create({
   text: {
     color: 'white',
   },
@@ -43,6 +43,27 @@ const DarkTheme = StyleSheet.create({
   extra: {
     color: '#024670'
   }
+}) */
+
+const DarkTheme = StyleSheet.create({
+  text: {
+    color: 'white',
+  },
+  background: {
+    backgroundColor: '#0F0F0F',
+  },
+  primary: {
+    color: '#206b69'
+  },
+  secondary: {
+    color: '#107C02'
+  },
+  third: {
+    color: '#0c4e4c'
+  },
+  extra: {
+    color: '#4fa79b'
+  }
 })
 
 const LightTheme = StyleSheet.create({
@@ -56,13 +77,13 @@ const LightTheme = StyleSheet.create({
     color: '#10A607'
   },
   primary: {
-    color: '#095795'
+    color: '#8ccbb2'
   },
   third: {
-    color: '#134ECF'
+    color: '#4fa79b'
   },
   extra: {
-    color: '#024670'
+    color: '#b0e0d6'
   }
 })
 

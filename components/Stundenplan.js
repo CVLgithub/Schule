@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
        // borderTopWidth: 1.5,
         position: 'relative',
         top: -2,
-        zIndex: 2
+        zIndex: 2,
+        borderColor: 'transparent'
     }
     
 })
