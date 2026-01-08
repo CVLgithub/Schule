@@ -375,6 +375,7 @@ function CreateStyles(s){ return StyleSheet.create({
     maxHeight: 420,
     marginHorizontal: 10,
     paddingBottom:10,
+    borderColor: 'transparent'
     //width: 300
   },
   pickerItem: {
@@ -406,7 +407,8 @@ function CreateStyles(s){ return StyleSheet.create({
     top: -2,
     borderLeftWidth: 1.5,
     borderTopWidth: 3.5,
-    borderBottomWidth: 1.5
+    borderBottomWidth: 1.5,
+    borderColor: 'black'
   },
   headerItemTime: {
     backgroundColor: s.third.color,
@@ -418,7 +420,7 @@ function CreateStyles(s){ return StyleSheet.create({
     borderLeftWidth: 1.5,
     borderTopWidth: 3.5,
     borderBottomWidth: 1.5,
-    width: 40
+    width: 40,
   },
   headerTxt: {
     fontSize: 10,
@@ -427,7 +429,7 @@ function CreateStyles(s){ return StyleSheet.create({
     fontWeight: 'bold'
   },
   input: {
-    borderWidth: 1,
+    //borderWidth: 1,
     width: 300,
   },
   add: {
