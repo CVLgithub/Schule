@@ -3,22 +3,32 @@ import React, { useEffect, useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
-import { Settings } from '../App';
+import {setSettings, returnSettings} from '../scripts/storage.js';
 
 
 export default function SettingsView({ navigation, route}) {
+  console.log('Settings View geöffnet')
   const { ColourStyle } = route.params;
   const [selectedSubject, setSelectedSubject] = useState();
   const [items, setitems] = useState()
   const [text, onChangeText] = React.useState('');
   const [EvenIsA, setEvenIsA] = useState('')
-  const [AlwaysLight, setAlwaysLight] = useState(Settings.alwayslight)
-  const [StartAtSameTime, setStartAtSameTime] = useState(Settings.startAtSameTime)
-
+  const [AlwaysLight, setAlwaysLight] = useState('test')
+  const [StartAtSameTime, setStartAtSameTime] = useState('test')
   const getEvenIsA = async() => {
     const data = await s.getData('EvenWeekIsA', (x) => {return(x)})
     if (data == 'error'){return}
       setEvenIsA(data)
+  }
+
+  const getSettings = async () =>{
+    console.group('getSettings called')
+    const x = await returnSettings()
+    console.log('Recieved at SettingsView', x)
+    if(x.AlwaysLight == AlwaysLight && x.startAtSameTime == StartAtSameTime){console.error('stopped refresh');console.groupEnd(); return}
+    setAlwaysLight(x.alwaysLight)
+    setStartAtSameTime(x.startAtSameTime)
+    console.groupEnd()
   }
 
   useEffect(
@@ -59,8 +69,11 @@ export default function SettingsView({ navigation, route}) {
 
   useEffect(
     () => {
-      Settings.alwayslight = AlwaysLight,
-      Settings.startAtSameTime = StartAtSameTime
+      if(StartAtSameTime == 'test'|| AlwaysLight == 'test'){
+        getSettings()
+        return
+      }
+      setSettings({'startAtSameTime': StartAtSameTime, 'alwaysLight': AlwaysLight})
     },
     [StartAtSameTime,AlwaysLight]
   )
@@ -93,7 +106,7 @@ export default function SettingsView({ navigation, route}) {
       </Picker>
       <Button title='Delete' onPress={deleteSubject}/>
       <Button title={'Start at same time:' + ' ' + StartAtSameTime} onPress={changeStartAtSameTime}/>
-      <Button title={'AlwaysLight' + ' ' + AlwaysLight + '  -No use'} onPress={changeLightMode}/>
+      <Button title={'AlwaysLight' + ' ' + AlwaysLight} onPress={changeLightMode}/>
       <Button title={'EvenIsA' + ' ' + EvenIsA} onPress={changeEvenIsA}/>
     </View>
   );

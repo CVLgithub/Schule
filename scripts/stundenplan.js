@@ -1,9 +1,7 @@
+import * as Storage from './storage.js';
 import moment from 'moment-timezone';
 import * as cal from './calendar'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Settings } from '../App';
-
-
 
 const weekday = ["so","mo","di","mi","do","fr","sa"];
 
@@ -15,7 +13,6 @@ export const weekdayfull ={so:"Sonntag",mo:"Montag",di:"Dienstag",mi:"Mittwoch",
 const checkWeek = async (weekNum) => {
     const EvenIsA = await getData('EvenWeekIsA', (x) => {return(x)})
     if (EvenIsA == 'error'){console.log('WEEK ERROR'); return}
-    console.log(EvenIsA, '<------ WEEK')
     if (EvenIsA && (weekNum % 2) == 0){
         console.log('WEEK UPDATE TO A')
         woche = 'A'
@@ -46,19 +43,19 @@ const getTypeOfWeek = () => {
     checkWeek((week % 2))
     if ((week % 2) == 0){
         console.log('WEEK B')
-        return 'B'
+        woche = 'B'
     }
     console.log('WEEK A')
-    return 'A'
+    woche = 'A'
 }
 
-export let woche = getTypeOfWeek()
+//Run on Startup
+export let woche = 'A'
 
 export function toggleWoche() {
     woche = woche === 'A' ? 'B' : 'A';
     return woche;
 }
-
 
 const dayList = {
     1: 'moA',
@@ -76,8 +73,6 @@ const dayList = {
     13: 'saB',
     14: 'soB'
 }
-
-
 
 //stundenplan sollte lokal gespeichert werden
 export let  stundenPlan = {
@@ -105,13 +100,11 @@ export const TimeList = [
     '15:25\n16:55',
 ]
 
-
-
-
 const getSubjectList = async () => {
     const x = await getData('SubjectList', (x) => {return(x)})
-    console.log('subjectlist')
+    console.group('subjectlist')
     console.log(x)
+    console.groupEnd()
     if (x == 'error'){
         console.log('error !!!!')
         return []
@@ -125,14 +118,10 @@ export let SubjectList = ['Loading ...']
 const setSubjectList = async () => {
     SubjectList = await getSubjectList()
 }
-setSubjectList()
-
 
 export const saveSubjects = () => {
     storeData('SubjectList', JSON.stringify(SubjectList))
 }
-
-
 
 export async function storeData(key, data) {
     try {
@@ -147,11 +136,11 @@ export async function getData(key, callback) {
     try {
         const value = JSON.parse(await AsyncStorage.getItem(key));
         if (value !== null && value !== undefined && value !== 'undefined') {
-            console.log(`return ${value}`)
+            console.log(`return Data: ${value} for key ${key}`)
             callback(value)
             return value
         } else {
-            console.log('No data found');
+            console.error(`No data for key ${key}`);
             return 'error'
         }
     } catch (error) {
@@ -159,7 +148,6 @@ export async function getData(key, callback) {
         return 'error'
     }
 };
-
 
 function findeTime(fach, dAsLetter, plan) {
     console.log(dAsLetter, plan[dAsLetter], fach)
@@ -178,7 +166,7 @@ export function nextDate(fach,plan){
     console.log('TIME',hours, min)
     console.log(nextDate)
     day.setDate(day.getDate() + nextDate)
-    if (Settings.startAtSameTime){
+    if (Storage.Settings.startAtSameTime){
        day.setHours(hours)
     day.setMinutes(min) 
     }
@@ -247,10 +235,9 @@ export function	handlePressCustom(id,text,plan, Subject){
     console.log(text)
 }
 
-
+//-------------
 
 const Timetable = [7*60+50,9*60+40,11*60+30,13*60+45,15*60+25,16*60+55]
-
 
 function getlesson(plan){
     const dUTC = new Date();
@@ -262,7 +249,6 @@ function getlesson(plan){
 
 }
 
-
 function getTimeInMin(){
     const dUTC = new Date();
     const d = moment(dUTC).tz('Europe/Berlin').toDate();
@@ -272,8 +258,6 @@ function getTimeInMin(){
     console.log('time:',time)
     return (time)
 }
-
-
 
 function convertTimeToLesson(d, plan){
     const time = getTimeInMin()
@@ -290,7 +274,6 @@ function convertTimeToLesson(d, plan){
     console.log('return index:', stundenPlan[d].length - 1)
     return plan[d].length - 1
 }
-
 
 function getISOWeekNumber(date) {
     // Kopiere das Datum und setze die Uhrzeit auf Mitternacht
@@ -329,3 +312,67 @@ function getISOWeekNumberInGermany(date) {
     const weekNumber = dateInGermany.isoWeek();
     return weekNumber;
 }
+
+//-----------------
+
+export let lessonColours = {}
+
+/* function defaultlessonColour(){
+    SubjectList.forEach(element => {
+        lessonColours[element] = Settings.
+    });
+} */
+
+const getLessonColours = async () => {
+    const x = await getData('lessonColours', (x) => {return(x)})
+    console.group('lessonColours')
+    console.log(x)
+   
+    if (x == 'error'){
+        console.log('error retrieving lessonColours!!!!')
+        console.groupEnd()
+        return []
+    }
+    console.groupEnd()
+    return x
+    
+}
+
+const setLessonColours = async () => {
+    lessonColours = await getLessonColours()
+}
+
+function saveLessonColours(){
+    storeData('lessonColours', JSON.stringify(lessonColours))
+}
+
+function setLessonColour(Lesson, Colour){
+    lessonColours[Lesson] = Colour
+    saveLessonColours()
+}
+
+
+
+//--------------
+async function getAllStorageKeys() {
+    const keys = await AsyncStorage.getAllKeys();
+    console.table(keys)
+}
+
+
+
+//----------------------------------------------------
+
+const init = () => {
+    console.group('Starting from stundenplan.js')
+    getAllStorageKeys()
+    console.log(Storage.Settings.startAtSameTime)
+    console.log('getWeek')
+    getTypeOfWeek()
+    console.log('setSubjectList')
+    setSubjectList()
+    console.log('lessonColours set to standard')
+    //defaultlessonColour()
+    console.groupEnd()
+}
+init()

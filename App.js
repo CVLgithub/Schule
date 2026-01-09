@@ -15,11 +15,8 @@ import Week from './components/week.js';
 import SettingsView from './screens/Settings.js';
 import { useEffect, useState } from 'react';
 
+import {returnSettings} from './scripts/storage.js';
 
-export let Settings = {
-  'alwayslight': false,
-  'startAtSameTime': true,
-}
 
 const screenWidth = Dimensions.get('window').width; // full width
 const screenHeight = Dimensions.get('window').height; // full height
@@ -89,9 +86,10 @@ const LightTheme = StyleSheet.create({
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-  const systemScheme = Appearance.getColorScheme()
 
   console.log('System Theme:', systemScheme);
+
+  const [systemScheme, setSystemScheme] = useState() 
 
   const [isDarkTheme, setIsDarkTheme] = useState(null); // Initialize with null
   const [loading, setLoading] = useState(true); // Add a loading state
@@ -99,20 +97,43 @@ export default function App() {
 
   const [ColourStyle, setColourStyle] = useState(LightTheme);
 
+  const [SettingsLocal, setSettingsLocal] = useState();
+
+  const getSettings = async () => {
+    const x = await returnSettings()
+    setSettingsLocal(x)
+    setSystemScheme(Appearance.getColorScheme())
+  }
+
+  useEffect(() => {
+    console.log('get Settings from App.js')
+    getSettings()
+  }, []);
+  
+
   useEffect(() => {
     console.log('system: ', systemScheme)
     setIsDarkTheme(systemScheme === 'dark');
   }, [systemScheme]);
 
   useEffect(() => {
+    console.group('Set Theme Effect')
+    console.log(SettingsLocal)
     console.log(systemScheme, isDarkTheme, '<---')
+    console.groupEnd()
     if(isDarkTheme == null){return}
     if (isDarkTheme) { // Check if isDarkTheme is set
-      setColourStyle(DarkTheme);
-
+      if(SettingsLocal.alwaysLight = 'false'){
+        console.error('dark theme')
+        setColourStyle(DarkTheme);
+      } else {
+        setColourStyle(LightTheme)
+      }
     }
     setLoading(false);
-  }, [isDarkTheme]);
+  }, [SettingsLocal]);
+
+
 
   if (loading) {
     return (
