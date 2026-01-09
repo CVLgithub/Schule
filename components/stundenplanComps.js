@@ -8,7 +8,6 @@ const screenWidth = Dimensions.get('window').width; //full width
 const screenHeight = Dimensions.get('window').height; //full height
 
 
-
 const AddLesson = ({day, nav, ColourStyle}) => {
     const styles2 = CreateStyles(ColourStyle)
     return (
@@ -22,7 +21,7 @@ const AddLesson = ({day, nav, ColourStyle}) => {
     )
 }
 
-export const Tag = ({day, woche, nav, ColourStyle, reload}) => {
+export const Tag = ({day, woche, nav, ColourStyle, reload, SettingsLocal}) => {
     const styles2 = CreateStyles(ColourStyle)
     const DayFull = s.weekdayfull[day]
     const [lessons, setLessons] = useState([])
@@ -30,7 +29,7 @@ export const Tag = ({day, woche, nav, ColourStyle, reload}) => {
     try {
       const data = s.stundenPlan[`${day}${woche}`] ?? [];
       const newLessons = data.map((item, i) => (
-        <Lesson key={i} fach={item} day={`${day}${woche}`} nav={nav} ColourStyle={ColourStyle} index={i}/>
+        <Lesson key={i} fach={item} day={`${day}${woche}`} nav={nav} ColourStyle={ColourStyle} SettingsLocal={SettingsLocal} index={i}/>
       ));
       setLessons(newLessons);
     } catch (error) {
@@ -52,11 +51,16 @@ export const Tag = ({day, woche, nav, ColourStyle, reload}) => {
     )
 }
 
-const Lesson = ({fach, day, nav, ColourStyle, index}) => {
+const Lesson = ({fach, day, nav, ColourStyle,SettingsLocal, index}) => {
+    const CustomBgColour = SettingsLocal?.lessonColours?.[fach] //wenn SettingsLocal.lessonColours.[fach] existiert
+  ? { backgroundColor: SettingsLocal.lessonColours[fach] } // setzte auf SettingsLocal.lessonColours.[fach]
+  : {};                                                    //ansonsten leer => default
+
+
     const styles2 = CreateStyles(ColourStyle)
     return ( 
         <Pressable onPress={() => {console.log(day, fach); nav.navigate('Editieren', {lesson: fach, day: day, index: index })}}>
-            <View style={styles2.lesson}>
+            <View style={[styles2.lesson, CustomBgColour]}>
                 <Text style={styles2.lessonTxt}>{fach}</Text>
             </View>
         </Pressable>

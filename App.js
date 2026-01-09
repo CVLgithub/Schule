@@ -126,15 +126,15 @@ export default function App() {
     if(isDarkTheme == null){return}
     if (isDarkTheme) { // Check if isDarkTheme is set
       if(SettingsLocal.alwaysLight == false){
-        console.error('dark theme')
+        console.log('dark theme')
         setColourStyle(DarkTheme);
       } else {
         setColourStyle(LightTheme)
-        console.error('Light Theme 1')
+        console.log('Light Theme 1')
       }
     }else{
       setColourStyle(LightTheme)
-      console.error('light Theme')
+      console.log('light Theme')
     }
 
     setLoading(false);
@@ -190,9 +190,9 @@ export default function App() {
               component={MainView}
               options={({ navigation, route }) => ({
                 title: 'Schulplanner',
-                headerLeft: () => <Week nav={navigation} ColourStyle={ColourStyle} />,
+                headerLeft: () => <Week nav={navigation} ColourStyle={ColourStyle}/>,
               })}
-              initialParams={{ ColourStyle: ColourStyle }} 
+              initialParams={{ ColourStyle: ColourStyle , SettingsLocal: SettingsLocal}} 
             />
             <Stack.Screen 
               name="Editieren" 

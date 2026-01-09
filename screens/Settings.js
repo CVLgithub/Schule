@@ -60,6 +60,9 @@ export default function SettingsView({ navigation, route}) {
     const index = s.SubjectList.indexOf(selectedSubject)
     s.SubjectList.splice(index, 1)
     s.saveSubjects()
+    const a = {}
+    a[selectedSubject] = 'delete'
+    setSettings({'lessonColours': a})
     navigation.navigate('Einstellungen', { refresh: Math.random() })
   }
 
@@ -205,6 +208,9 @@ export default function SettingsView({ navigation, route}) {
 
   const setCustomColor = (subject, color) => {
     console.error(subject, color)
+    const a = {}
+    a[subject] = color
+    setSettings({'lessonColours': a})
   }
 
   return ( 
@@ -262,6 +268,7 @@ export default function SettingsView({ navigation, route}) {
         <Button title={'Start at same time:' + ' ' + StartAtSameTime} onPress={changeStartAtSameTime}/>
         <Button title={'AlwaysLight' + ' ' + AlwaysLight} onPress={changeLightMode}/>
         <Button title={'EvenIsA' + ' ' + EvenIsA} onPress={changeEvenIsA}/>
+        <Button title={'REFRESH'} onPress={() => {navigation.navigate('main', { refresh: Math.random()})}}/>
       </View>
       
     </View>

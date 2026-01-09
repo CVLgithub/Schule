@@ -11,7 +11,7 @@ const screenHeight = Dimensions.get('window').height; //full height
 
 
 
-export default function StundenPlan({navigation, reload, ColourStyle}){
+export default function StundenPlan({navigation, reload, ColourStyle, SettingsLocal}){
     const stundenplan = s.stundenPlan
     const woche = s.woche;
     const columns = React.useMemo(() => {
@@ -27,6 +27,7 @@ export default function StundenPlan({navigation, reload, ColourStyle}){
           woche={woche}
           nav={navigation}
           ColourStyle={ColourStyle}
+          SettingsLocal={SettingsLocal}
         />
       );
     }

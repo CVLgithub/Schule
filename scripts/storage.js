@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { lessonColours } from './stundenplan';
 
 async function storeData(key, data) {
     try {
@@ -71,7 +72,19 @@ const getSettings = async () => {
   Settings = c
 }
 
-export function setSettings(dic){
+const setlessonColours = (dic) => {
+  let a = Settings.lessonColours
+  for (let key in dic){
+    a[key] = dic[key]
+    if (dic[key] == 'delete'){
+      delete a[key];
+    }
+  }
+  return a
+}
+
+export function setSettings(x){
+  let dic = x
   console.group('setSettigs with dic:')
   console.log(dic)
   for (let key in dic) {
@@ -80,8 +93,11 @@ export function setSettings(dic){
     console.log(Settings)
     console.log(key, ' <- exist: ', key in Settings)
     if (key in Settings){
+      if(key == 'lessonColours'){
+        dic[key] = setlessonColours(dic[key])
+      }
       Settings[key] = dic[key]
-      console.log(Settings[key])
+      console.warn(Settings[key])
     }
   }
   saveSettings()
