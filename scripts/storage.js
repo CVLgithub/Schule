@@ -31,21 +31,21 @@ async function getData(key, callback) {
 
 
 const defaultSettings = {
-  'alwaysLight': true,
-  'startAtSameTime': true,
+  'alwaysLight': 'default',
+  'startAtSameTime': 'default',
   'lessonColours': {
   }
 }
 
 export let Settings = {
-  'alwaysLight': true,
-  'startAtSameTime': false,
+  'alwaysLight': 'value1',
+  'startAtSameTime': 'value1',
   'lessonColours': {
   }
 }
 
 function saveSettings(){
-  console.error('saving Settings')
+  console.log('saving Settings')
   storeData('Settings', JSON.stringify(Settings))
   
 }
@@ -61,11 +61,12 @@ const getSettingsFromStorage = async () => {
         //return defaultSettings
     }
     console.groupEnd()
+    console.groupEnd()
     return x    
 }
 
 const getSettings = async () => {
-  console.log('retrieving Settings')
+  console.log('start retrieving Settings')
   const c = await getSettingsFromStorage()
   Settings = c
 }
@@ -86,8 +87,13 @@ export function setSettings(dic){
   saveSettings()
 }
 
-export function returnSettings(){
-  return Settings
+export async function returnSettings(){
+  console.group('return Settings')
+  console.log(JSON.stringify(Settings))
+  const x = await getSettingsFromStorage()
+  console.log('return Settings: ',x)
+  console.groupEnd
+  return x
 }
 
 //run on Startup

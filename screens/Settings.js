@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
-import {Settings} from '../scripts/storage.js';
+import {Settings,setSettings, returnSettings} from '../scripts/storage.js';
 
 
 export default function SettingsView({ navigation, route}) {
@@ -15,17 +15,20 @@ export default function SettingsView({ navigation, route}) {
   const [EvenIsA, setEvenIsA] = useState('')
   const [AlwaysLight, setAlwaysLight] = useState('test')
   const [StartAtSameTime, setStartAtSameTime] = useState('test')
-  console.error('from Settings: alwaysLight: ', Settings )
   const getEvenIsA = async() => {
     const data = await s.getData('EvenWeekIsA', (x) => {return(x)})
     if (data == 'error'){return}
       setEvenIsA(data)
   }
 
-  const getSettings = () =>{
-    /* console.warn('refreshing settings from storage with: ', Settings)
-    setAlwaysLight(Settings.alwaysLight)
-    setStartAtSameTime(Settings.startAtSameTime) */
+  const getSettings = async () =>{
+    console.group('getSettings called')
+    const x = await returnSettings()
+    console.log('Recieved at SettingsView', x)
+    if(x.AlwaysLight == AlwaysLight && x.startAtSameTime == StartAtSameTime){console.error('stopped refresh');console.groupEnd(); return}
+    setAlwaysLight(x.alwaysLight)
+    setStartAtSameTime(x.startAtSameTime)
+    console.groupEnd()
   }
 
   useEffect(
@@ -39,7 +42,6 @@ export default function SettingsView({ navigation, route}) {
       }
       setitems(newItems)
       getEvenIsA()
-      getSettings()
     }     
     ,[route.params?.refresh]
   )
@@ -67,9 +69,11 @@ export default function SettingsView({ navigation, route}) {
 
   useEffect(
     () => {
-      if(StartAtSameTime == 'test'|| AlwaysLight == 'test'){return}
-      //console.error('saving: ', StartAtSameTime, AlwaysLight)
-      //setSettings({'startAtSameTime': StartAtSameTime, 'alwaysLight': AlwaysLight})
+      if(StartAtSameTime == 'test'|| AlwaysLight == 'test'){
+        getSettings()
+        return
+      }
+      setSettings({'startAtSameTime': StartAtSameTime, 'alwaysLight': AlwaysLight})
     },
     [StartAtSameTime,AlwaysLight]
   )
