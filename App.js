@@ -1,3 +1,6 @@
+import * as SplashScreen from 'expo-splash-screen';
+SplashScreen.preventAutoHideAsync();
+
 import { StatusBar } from 'expo-status-bar';
 import { Appearance, Dimensions, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,7 +19,7 @@ import SettingsView from './screens/Settings.js';
 import { useEffect, useState } from 'react';
 
 import {returnSettings} from './scripts/storage.js';
-
+SplashScreen 
 
 const screenWidth = Dimensions.get('window').width; // full width
 const screenHeight = Dimensions.get('window').height; // full height
@@ -87,15 +90,13 @@ const LightTheme = StyleSheet.create({
 export default function App() {
   const Stack = createNativeStackNavigator();
 
-  console.log('System Theme:', systemScheme);
+  const [systemScheme, setSystemScheme] = useState(null) 
 
-  const [systemScheme, setSystemScheme] = useState() 
-
-  const [isDarkTheme, setIsDarkTheme] = useState(null); // Initialize with null
+  const [isDarkTheme, setIsDarkTheme] = useState(); // Initialize with null
   const [loading, setLoading] = useState(true); // Add a loading state
 
 
-  const [ColourStyle, setColourStyle] = useState(LightTheme);
+  const [ColourStyle, setColourStyle] = useState(null);
 
   const [SettingsLocal, setSettingsLocal] = useState();
 
@@ -112,7 +113,8 @@ export default function App() {
   
 
   useEffect(() => {
-    console.log('system: ', systemScheme)
+    if(systemScheme == null){return}
+    console.log('system: ', systemScheme, '|', systemScheme === 'dark')
     setIsDarkTheme(systemScheme === 'dark');
   }, [systemScheme]);
 
@@ -123,17 +125,26 @@ export default function App() {
     console.groupEnd()
     if(isDarkTheme == null){return}
     if (isDarkTheme) { // Check if isDarkTheme is set
-      if(SettingsLocal.alwaysLight = 'false'){
+      if(SettingsLocal.alwaysLight == false){
         console.error('dark theme')
         setColourStyle(DarkTheme);
       } else {
         setColourStyle(LightTheme)
+        console.error('Light Theme 1')
       }
+    }else{
+      setColourStyle(LightTheme)
+      console.error('light Theme')
     }
+
     setLoading(false);
-  }, [SettingsLocal]);
+    hideSplash()
+  }, [isDarkTheme]);
 
 
+  const hideSplash = async() => {
+    await SplashScreen.hideAsync()
+  }
 
   if (loading) {
     return (
@@ -143,6 +154,7 @@ export default function App() {
       </View>
     );
   }
+
 
   console.log('notloading:',ColourStyle)
 
