@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 
 import * as s from '../scripts/stundenplan'
-import {Settings,setSettings, returnSettings} from '../scripts/storage.js';
+import {setSettings, returnSettings} from '../scripts/storage.js';
 
 
 export default function SettingsView({ navigation, route}) {
@@ -106,7 +106,7 @@ export default function SettingsView({ navigation, route}) {
       </Picker>
       <Button title='Delete' onPress={deleteSubject}/>
       <Button title={'Start at same time:' + ' ' + StartAtSameTime} onPress={changeStartAtSameTime}/>
-      <Button title={'AlwaysLight' + ' ' + AlwaysLight + '  -No use'} onPress={changeLightMode}/>
+      <Button title={'AlwaysLight' + ' ' + AlwaysLight} onPress={changeLightMode}/>
       <Button title={'EvenIsA' + ' ' + EvenIsA} onPress={changeEvenIsA}/>
     </View>
   );
