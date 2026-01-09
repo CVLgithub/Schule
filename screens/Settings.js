@@ -37,6 +37,7 @@ export default function SettingsView({ navigation, route}) {
   useEffect(
     () => {
       const newItems = []
+      setSelectedSubject(s.SubjectList[0])
       for (const i in s.SubjectList){
         const item = s.SubjectList[i]
         newItems.push(
@@ -90,97 +91,51 @@ export default function SettingsView({ navigation, route}) {
     [EvenIsA]
   )
 
-  const [value, setValue] = useState(null);
   
-  const local_data = [
+  
+  const customColorStyles = [
     {
       value: '1',
-      lable: '#c4e1b4',
+      lable: '#1',
       color: '#c4e1b4',
     },
     {
       value: '2',
-      lable: '#8fc4a0',
-      color: '#c4e1b4',
+      lable: '#2',
+      color: '#5b9b7a',
     },
     {
       value: '3',
-      lable: '#3d7c58',
-      color: '#c4e1b4',
+      lable: '#3',
+      color: '#2b5c3e',
     },
     {
       value: '4',
-      lable: '#1a3d28',
-      color: '#c4e1b4',
+      lable: '#4',
+      color: '#1a3d28',
     },
   ]
 
+  const [value, setValue] = useState(customColorStyles[0]);
+  const [selected, setSelected] = useState(customColorStyles[0])
+
   const renderItem = (item) => {
-    <View style={styles.itemRow}>
-      <Text>testtt</Text>
+    return (<View style={styles.itemRow}>
       <View style={[styles.swatch, {backgroundColor: item.color}]}>
       </View>
     </View>
+    )
   }
 
-  return ( 
-    <View flex={1} backgroundColor={ColourStyle.background.backgroundColor}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="Fach hinzufügen"
-        color={ColourStyle.text.color}
-      />
-      <Button title='Hinzufügen' onPress={add}/>
-      <Picker
-        selectedValue={selectedSubject}
-        onValueChange={(itemValue, itemIndex) =>
-          setSelectedSubject(itemValue)
-        }>
-        {items}
-      </Picker>
-      <View style={styles.dropdownView}>
-        <Dropdown
-        style={styles.dropdown}
-        selectedTextStyle={styles.selectedTextStyle}
-        placeholderStyle={styles.placeholderStyle}
-        imageStyle={styles.imageStyle}
-        iconStyle={styles.iconStyle}
-        maxHeight={200}
-        value={value}
-        data={local_data}
-        valueField="value"
-        labelField="lable"
-        imageField="image"
-        placeholder="Select Color"
-        searchPlaceholder="Search..."
-        onChange={e => {
-          setCountry(e.value);
-        }}
-        renderItem={renderItem}
-       /*  renderLeftIcon={
-          () => {
-            selectedItem?.color ? (
-              <View style={[styles.swatch, {backgroundColor: selecteditem.color}]}/>
-            ) : null
-          }
-        } */
-      />
+  const renderLeftIcon = () => {
+    return (
+      <View style={[styles.swatch, {backgroundColor: selected.color, width: 100}]}>
       </View>
-      <Button title='Delete' onPress={deleteSubject}/>
-      <View marginTop={10} flex={1} borderTopWidth={2} borderTopColor={'grey'}>
-        <Text style={styles.titleText}>Allgemein</Text>
-        <Button title={'Start at same time:' + ' ' + StartAtSameTime} onPress={changeStartAtSameTime}/>
-        <Button title={'AlwaysLight' + ' ' + AlwaysLight} onPress={changeLightMode}/>
-        <Button title={'EvenIsA' + ' ' + EvenIsA} onPress={changeEvenIsA}/>
-      </View>
-      
-    </View>
-  );
-}
+    )
+  }
 
-const styles = StyleSheet.create({
+
+  const styles = StyleSheet.create({
   input: {
     height: 40,
     margin: 12,
@@ -202,8 +157,8 @@ const styles = StyleSheet.create({
     margin: 16,
     height: 50,
     width: 150,
-    backgroundColor: '#EEEEEE',
-    borderRadius: 12,
+    backgroundColor: ColourStyle.primary.color,
+    borderRadius: 8,
     paddingHorizontal: 8,
   },
   imageStyle: {
@@ -215,23 +170,103 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   selectedTextStyle: {
-    fontSize: 16,
-    marginLeft: 8,
+    width: 0,
+    flex: 0,
+    fontSize: 0
   },
   iconStyle: {
     width: 20,
     height: 20,
   },
   swatch: {
-    width: 18,
+    flex: 1,
+    //marginVertical: 0.2,
+    marginHorizontal: 0,
     height: 18,
     borderRadius: 4,
-    borderWidth: 1
+    borderWidth: 1,
   },
   itemRow:{
     flexDirection: 'row',
     padding: 12,
     alignItems: 'center',
-    height: 100,
+    //backgroundColor: ColourStyle.third.color,
+    //height: 100,
+  },
+  itemContainerStyle: {
+    backgroundColor: ColourStyle.third.color,
+    borderWidth: 2,
+    borderColor: ColourStyle.third.color,
+    paddingVertical: 3,
+    borderRadius: 8,
   }
-});
+  });
+
+
+  const setCustomColor = (subject, color) => {
+    console.error(subject, color)
+  }
+
+  return ( 
+    <View flex={1} backgroundColor={ColourStyle.background.backgroundColor}>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+        placeholder="Fach hinzufügen"
+        color={ColourStyle.text.color}
+      />
+      <Button title='Hinzufügen' onPress={add}/>
+      <Picker
+        selectedValue={selectedSubject}
+        onValueChange={(itemValue, itemIndex) =>
+          setSelectedSubject(itemValue)
+        }>
+        {items}
+      </Picker>
+      <View style={styles.dropdownView}>
+        <Dropdown
+        containerStyle={styles.itemContainerStyle}
+        style={styles.dropdown}
+        selectedTextStyle={styles.selectedTextStyle}
+        placeholderStyle={styles.placeholderStyle}
+        imageStyle={styles.imageStyle}
+        iconStyle={styles.iconStyle}
+        maxHeight={200}
+        value={value}
+        data={customColorStyles}
+        valueField="value"
+        //labelField="lable"
+        imageField="image"
+        placeholder="Select Color"
+        searchPlaceholder="Search..."
+        onChange={e => {
+          setSelected(e)
+          console.log(e.value);
+          setCustomColor(selectedSubject, e.color)
+        }}
+        renderItem={renderItem}
+        renderLeftIcon={renderLeftIcon}
+       /*  renderLeftIcon={
+          () => {
+            selectedItem?.color ? (
+              <View style={[styles.swatch, {backgroundColor: selecteditem.color}]}/>
+            ) : null
+          }
+        } */
+      />
+      </View>
+      <Button title='Delete' onPress={deleteSubject}/>
+      <View marginTop={10} flex={1} borderTopWidth={2} borderTopColor={'grey'}>
+        <Text style={styles.titleText}>Allgemein</Text>
+        <Button title={'Start at same time:' + ' ' + StartAtSameTime} onPress={changeStartAtSameTime}/>
+        <Button title={'AlwaysLight' + ' ' + AlwaysLight} onPress={changeLightMode}/>
+        <Button title={'EvenIsA' + ' ' + EvenIsA} onPress={changeEvenIsA}/>
+      </View>
+      
+    </View>
+  );
+
+
+}
+
