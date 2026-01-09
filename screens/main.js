@@ -60,7 +60,7 @@ async function getStoredStunendplan(){
 
 
 export default function Main({ navigation, route }) {
-  const { ColourStyle } = route.params;
+  const { ColourStyle, SettingsLocal } = route.params;
   const styles = CreateStyles(ColourStyle)
 
   
@@ -79,7 +79,7 @@ export default function Main({ navigation, route }) {
 
   const loadStundenPlan = () => {
     console.log('Stundenplan wird geupdated');
-    setStundenPlan(<StundenPlan navigation={navigation} reload={Math.random()} ColourStyle={ColourStyle} />);
+    setStundenPlan(<StundenPlan navigation={navigation} reload={Math.random()} ColourStyle={ColourStyle} SettingsLocal={SettingsLocal} />);
   };
 
   const confPicker = () => {
