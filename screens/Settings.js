@@ -11,7 +11,7 @@ import * as test from '../assets/color/1.png'
 
 export default function SettingsView({ navigation, route}) {
   console.log('Settings View geöffnet')
-  const { ColourStyle } = route.params;
+  const { ColourStyle, forceRefresh } = route.params;
   const [selectedSubject, setSelectedSubject] = useState();
   const [items, setitems] = useState()
   const [text, onChangeText] = React.useState('');
@@ -98,25 +98,54 @@ export default function SettingsView({ navigation, route}) {
   
   const customColorStyles = [
     {
+      value: '0',
+      lable: '#0',
+      color: ColourStyle.primary.color
+    },
+    {
       value: '1',
       lable: '#1',
-      color: '#c4e1b4',
+      color: '#d6e6d7',
     },
     {
       value: '2',
       lable: '#2',
-      color: '#5b9b7a',
+      color: '#b7c9b1',
     },
     {
       value: '3',
       lable: '#3',
-      color: '#2b5c3e',
+      color: '#8fae8d',
     },
     {
       value: '4',
       lable: '#4',
-      color: '#1a3d28',
+      color: '#6b9d6a',
     },
+    {
+      value: '5',
+      lable: '#5',
+      color: '#4e8b57',
+    },
+    {
+      value: '6',
+      lable: '#6',
+      color: '#3a6d45',
+    },
+    {
+      value: '7',
+      lable: '#7',
+      color: '#2b4e34',
+    },{
+      value: '8',
+      lable: '#8',
+      color: '#1d3a27',
+    },{
+      value: '9',
+      lable: '#9',
+      color: '#14301e',
+    },
+
   ]
 
   const [value, setValue] = useState(customColorStyles[0]);
@@ -151,7 +180,7 @@ export default function SettingsView({ navigation, route}) {
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white'
+    color: ColourStyle.text.color
   },
   dropdownView: {
     alignItems: 'center'
@@ -202,6 +231,13 @@ export default function SettingsView({ navigation, route}) {
     borderColor: ColourStyle.third.color,
     paddingVertical: 3,
     borderRadius: 8,
+  },
+  refresh: {
+    borderWidth: 2,
+    width: 120,
+    alignSelf: 'center',
+    marginTop: 15,
+    borderColor: ColourStyle.text.color
   }
   });
 
@@ -268,7 +304,12 @@ export default function SettingsView({ navigation, route}) {
         <Button title={'Start at same time:' + ' ' + StartAtSameTime} onPress={changeStartAtSameTime}/>
         <Button title={'AlwaysLight' + ' ' + AlwaysLight} onPress={changeLightMode}/>
         <Button title={'EvenIsA' + ' ' + EvenIsA} onPress={changeEvenIsA}/>
-        <Button title={'REFRESH'} onPress={() => {navigation.navigate('main', { refresh: Math.random()})}}/>
+        <View style={styles.refresh}>
+          <Button color={ColourStyle.text.color} title='Refresh' onPress={() => {
+            console.log('force Refresh')
+            forceRefresh(Math.random())
+          }} />
+      </View>
       </View>
       
     </View>

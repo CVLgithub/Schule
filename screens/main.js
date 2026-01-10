@@ -60,7 +60,7 @@ async function getStoredStunendplan(){
 
 
 export default function Main({ navigation, route }) {
-  const { ColourStyle, SettingsLocal } = route.params;
+  const { ColourStyle, SettingsLocal, forceRefresh } = route.params;
   const styles = CreateStyles(ColourStyle)
 
   
@@ -332,6 +332,7 @@ export default function Main({ navigation, route }) {
         <Header/>
         {stundenPlanItem}
       </ScrollView>
+      
       
       
     </View>

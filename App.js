@@ -94,6 +94,8 @@ export default function App() {
 
   const [isDarkTheme, setIsDarkTheme] = useState(); // Initialize with null
   const [loading, setLoading] = useState(true); // Add a loading state
+  const [refresh, ForceRefresh] = useState(0); // Add a loading state
+  const [refreshUi, ForceUiRefresh] = useState(0)
 
 
   const [ColourStyle, setColourStyle] = useState(null);
@@ -105,6 +107,29 @@ export default function App() {
     setSettingsLocal(x)
     setSystemScheme(Appearance.getColorScheme())
   }
+
+  const updateSettings = async () => {
+    console.error('set settings')
+    const x = await returnSettings()
+    setSettingsLocal(x)
+    setSystemScheme(Appearance.getColorScheme())
+    ForceUiRefresh(Math.random())
+    
+  }
+
+  useEffect(() => {
+    console.error('Local settings updated to: ', SettingsLocal)
+  }, [SettingsLocal]
+  )
+
+
+  useEffect(() => {
+    console.error('force refresh recieved with', refresh)
+    if(refresh != 0){
+      updateSettings()
+    }
+  }, [refresh]
+  )
 
   useEffect(() => {
     console.log('get Settings from App.js')
@@ -175,7 +200,7 @@ export default function App() {
         ]}
       >
         <StatusBar style={stylesb.status} />
-        <NavigationContainer style={stylesb.nav}>
+        <NavigationContainer style={stylesb.nav} key={refreshUi}>
           <Stack.Navigator
             initialRouteName="main"
             screenOptions={{
@@ -192,7 +217,7 @@ export default function App() {
                 title: 'Schulplanner',
                 headerLeft: () => <Week nav={navigation} ColourStyle={ColourStyle}/>,
               })}
-              initialParams={{ ColourStyle: ColourStyle , SettingsLocal: SettingsLocal}} 
+              initialParams={{ ColourStyle: ColourStyle , SettingsLocal: SettingsLocal, forceRefresh: (i) => ForceRefresh(i)}} 
             />
             <Stack.Screen 
               name="Editieren" 
@@ -207,7 +232,7 @@ export default function App() {
             <Stack.Screen 
               name="Einstellungen" 
               component={SettingsView}
-              initialParams={{ ColourStyle: ColourStyle }}
+              initialParams={{ ColourStyle: ColourStyle, forceRefresh: (i) => ForceRefresh(i)  }}
             />
           </Stack.Navigator>
         </NavigationContainer>
