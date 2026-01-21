@@ -219,19 +219,19 @@ function recursion(fach,plan, index, runtime = 0){
     return recursion(fach,plan, index + 1, runtime + 1)
 }
 
-export function	handlePress(id,text,plan){
+export function	handlePress(id,text,plan, callback){
     console.log('test2', plan)
     const [day, LID, fach] = getlesson(plan)
     console.log(fach)
-    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 90, text)
+    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 90, text).catch(e=> callback(e.message))  //cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 90, text)
     console.log(text)
 }
 
-export function	handlePressCustom(id,text,plan, Subject){
+export function	handlePressCustom(id,text,plan, Subject, callback){
     console.log('test2', plan)
     const fach = Subject
     console.log(fach)
-    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 90, text)
+    cal.event(id, `Aufgabe in ${fach}`, nextDate(fach, plan), 90, text).catch(e=> callback(e.message))
     console.log(text)
 }
 
@@ -268,6 +268,7 @@ function convertTimeToLesson(d, plan){
         //console.log(Timetable[index]);
         if(time <= Timetable[index]){
             console.log('Index: ', index);
+            if(index== 0){return 0}
             return index - 1;
         }
     }

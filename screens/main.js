@@ -296,7 +296,24 @@ export default function Main({ navigation, route }) {
 
     
   }
-    
+   
+  //Hausuafgaben hinzufügen States
+  const [isDisabled, setisDisabled] = useState(false)
+  const [buttonPressedStyle, setButtonPressedStyle] = useState({})
+  const [buttonTxt, setButtonTxt] = useState('Hausaufgabe hinzufügen')
+
+  const reset = (msg = false) => {
+    if(msg){
+      console.error('Error in main')
+      console.error(msg)
+      setButtonTxt(msg)
+      return
+    }
+    console.error('no error')
+    setisDisabled(false)
+    setButtonPressedStyle({})
+  }
+
   const scrollRef = useRef();
   return (
     <View style={styles.container}>
@@ -318,13 +335,16 @@ export default function Main({ navigation, route }) {
       />
       <Switch/>
       <SubjectSelect/>
-      <View style={styles.add}>
-        <Button  color={ColourStyle.text.color} title='Hausaufgabe hinzufügen' onPress={() => {
-      
+      <View style={[styles.add, buttonPressedStyle]}>
+        <Button  color={ColourStyle.text.color} disabled={isDisabled} title={buttonTxt} onPress={() => {
+        setButtonPressedStyle({backgroundColor: 'red'})
+        setisDisabled(true)
         if(SwitchState == 'auto'){
-          plan.handlePress(id, text, plan.stundenPlan)
+          console.log('press')
+          plan.handlePress(id, text, plan.stundenPlan, (msg) => {reset(msg)})
         } else {
-          plan.handlePressCustom(id, text, plan.stundenPlan, selectedSubject )
+          console.log('press')
+          plan.handlePressCustom(id, text, plan.stundenPlan, selectedSubject, reset )
         }
       }} />
       </View>
