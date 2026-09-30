@@ -15,6 +15,11 @@ to find the current (or last) lesson. Then it looks up the next lesson of that
 subject and adds the homework as an event to your Apple Calendar at that time.
 So the homework shows up exactly when you need it.
 
+## Screenshots
+
+<img width="1125" height="2436" alt="IMG_1768" src="https://github.com/user-attachments/assets/63042e84-fb2a-4868-9161-f26a144e1a8d" />
+
+
 # Built with
 
 - React Native + Expo (JavaScript)
